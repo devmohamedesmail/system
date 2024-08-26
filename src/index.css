@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Core styles */
+@import 'primereact/resources/themes/saga-blue/theme.css'; /* Change theme if desired */
+@import 'primereact/resources/primereact.min.css';
+@import 'primeicons/primeicons.css';
+
+
+.arabic-font{
+    font-family: "Cairo", sans-serif;
+}
+.arabic-font *{
+    font-family: "Cairo", sans-serif;
+}
+
