@@ -21,7 +21,7 @@ export default function BranchTable() {
   };
 
 
-  console.log("branches")
+ 
   // Handle edit action
   const handleEdit = (branch) => {
     setVisible(true);
@@ -33,10 +33,13 @@ export default function BranchTable() {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
     if (userConfirmed) {
       try {
-        await axios.delete(`${Setting.url}delete/branch/${branch.id}`);
+        // await axios.delete(`${Setting.url}delete/branch/${branch.id}`);
+        await axios.delete(`https://naqraa.net/api/delete/branch/${branch.id}`);
         fetchBranches();
+        
       } catch (error) {
-        alert(error);
+        alert(t("errorhappened"))
+        console.log(error)
       }
     }
   };

@@ -11,6 +11,7 @@ import CustomDropDownMenu from "../../custom/CustomDropDownMenu";
 import axios from "axios";
 import { Setting } from "../../utilties/Setting";
 import CustomCalender from "../../custom/CustomCalender";
+import CustomLoading from "../../custom/CustomLoading";
 
 export default function EditRent() {
   const location = useLocation();
@@ -21,15 +22,28 @@ export default function EditRent() {
   const [bills, setBills] = useState(rent.bills);
   const [amount, setAmount] = useState(rent.amount);
   const [month, setMonth] = useState(rent.month);
-  const[branchName,setBranchName]=useState();
-  
-  const handleUpdateRent = async () =>{
-    await axios.post(`${Setting.url}update/rent/${rent.id}`,{
-        branch,bills,amount,month
-    })
-  }
+  const [branchName, setBranchName] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const handleUpdateRent = async () => {
+    setLoading(true);
+    try {
+      await axios.post(`${Setting.url}update/rent/${rent.id}`, {
+        branch,
+        bills,
+        amount,
+        month,
+      });
+      setLoading(false)
+    } catch (error) {
+      alert(t('error'));
+      setLoading(false)
+    }finally{
+      setLoading(false)
+    }
+  };
   return (
-    <div>
+    <div className="p-2">
       <CustomPageTitle title={t("editrent")} />
       <div className="my-3 p-2 bg-white">
         <CustomSectionTitle title={t("editrent")} />
@@ -39,13 +53,11 @@ export default function EditRent() {
               value={branchName}
               optionLabel="name"
               options={branches}
-              placeholder={t('branch')}
-              onchange={(e) => 
-              {
-                setBranch(e.value.id)
-                setBranchName(e.value.name)
-              }
-              }
+              placeholder={t("branch")}
+              onchange={(e) => {
+                setBranch(e.value.id);
+                setBranchName(e.value.name);
+              }}
             />
           </div>
           <div>
@@ -62,12 +74,16 @@ export default function EditRent() {
               onchange={(e) => setAmount(e.target.value)}
             />
           </div>
-         
-          <CustomCalender value={month} onchange={(e) => setMonth(e.value)} placeholder={t('date')} />
+
+          <CustomCalender
+            value={month}
+            onchange={(e) => setMonth(e.value)}
+            placeholder={t("date")}
+          />
         </div>
-       
-        <div>
-          <CustomButton title={t("update")} onpress={() => handleUpdateRent()} />
+
+        <div>  
+          {loading? (<CustomLoading />): (<CustomButton title={t("update")} onpress={() => handleUpdateRent()} />)  }
         </div>
       </div>
     </div>

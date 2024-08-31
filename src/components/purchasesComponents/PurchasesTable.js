@@ -8,27 +8,19 @@ import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import * as XLSX from "xlsx";
-import  { BranchesContext} from "../../context/BranchesProvider";
+import { BranchesContext } from "../../context/BranchesProvider";
 import { DataContext } from "../../context/DataProvider";
 
-export default function PurchasesTable() {
-  const [purchases, setPurchases] = useState();
+export default function PurchasesTable({ fetchpurchases,purchases }) {
+  
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const { branches, fetchBranches } = useContext(BranchesContext);
-  const [
-    invoicesTypes,
-    fetchInvoiceTypes,
-    methodTypes,
-    fetchMethodTypes,
-    invoices,
-    fetchInvoices,
-    departments,
-    fetchDepartments,
-  ] = useContext(DataContext);
+  const [, , , , , , departments, ,] = useContext(DataContext);
+
   const columns = [
     {
       name: t("branch"),
@@ -84,24 +76,21 @@ export default function PurchasesTable() {
     },
   ];
 
-  const fetchpurchases = async () => {
-    const response = await axios.get(`${Setting.url}show/purchases`);
-    setPurchases(response.data.data);
-  };
 
-  useEffect(() => {
-    fetchpurchases();
-  }, []);
   useEffect(() => {
     calculateTotalPrice();
   }, [selectedBranch, selectedDepartment, purchases]);
 
   const handledeleteitem = async (row) => {
     try {
-      await axios.delete(`${Setting.url}delete/purchases/${row.id}`);
-      fetchpurchases();
+      const fonfirm = window.confirm(t("alertdelete"));
+      if(fonfirm){
+        await axios.delete(`${Setting.url}delete/purchases/${row.id}`);
+        fetchpurchases();
+      }
+     
     } catch (error) {
-      alert(error);
+      alert(t('error'));
     }
   };
 
@@ -112,8 +101,6 @@ export default function PurchasesTable() {
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     XLSX.writeFile(wb, "Purchases.xlsx");
   };
-
- 
 
   const calculateTotalPrice = () => {
     if (!purchases) return;
@@ -151,8 +138,6 @@ export default function PurchasesTable() {
 
   return (
     <div className="my-3 p-2 bg-white">
-      {/* <p>{totalAmount}</p> */}
-
       <div className="flex items-center">
         <button
           className="bg-primary px-3 py-2 rounded-full text-white"
@@ -160,8 +145,6 @@ export default function PurchasesTable() {
         >
           {t("download")}
         </button>
-
-
 
         <div className="flex items-center">
           {branches && branches.length > 0 ? (

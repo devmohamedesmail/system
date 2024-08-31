@@ -15,6 +15,7 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import CustomCalender from "../../custom/CustomCalender";
+import CustomLoading from "../../custom/CustomLoading";
 
 export default function Rent() {
   const { t } = useTranslation();
@@ -24,10 +25,12 @@ export default function Rent() {
   const [amount, setAmount] = useState("");
   const [month, setMonth] = useState("");
   const [rents, setRents] = useState();
+  const [loading, setLoading] = useState(false);
   const[branchName,setBranchName]=useState("")
   const navigate = useNavigate();
 
   const handleAddRent = async () => {
+    setLoading(true);
     try {
       await axios.post(`${Setting.url}add/rent`, {
         branch,
@@ -35,16 +38,24 @@ export default function Rent() {
         amount,
         month,
       });
+      setLoading(false);
       fetchRent();
     } catch (error) {
-      alert(error);
+      setLoading(false);
+      alert(t('error'));
+    }finally{
+      setLoading(false);
     }
   };
 
   const fetchRent = async () => {
-    const response = await axios.get(`${Setting.url}show/rent`);
-    setRents(response.data.data);
-    console.log(response.data.data);
+   
+    try {
+      const response = await axios.get(`${Setting.url}show/rent`);
+      setRents(response.data.data);
+    } catch (error) {
+      alert(t('error'));
+    }
   };
 
   useEffect(() => {
@@ -103,7 +114,8 @@ export default function Rent() {
 
   return (
     <div className="p-2">
-      <CustomPageTitle title={t("rent")} />
+     <div className="container m-auto">
+     <CustomPageTitle title={t("rent")} />
       <div className="bg-white my-3 p-2">
         <CustomSectionTitle title={t("addrent")} />
         <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
@@ -134,15 +146,19 @@ export default function Rent() {
             />
           </div>
         
-          <CustomCalender value={month} onchange={(e) => setMonth(e.value)} placeholder={t('date')} />
+          <div>
+              <CustomCalender value={month} onchange={(e) => setMonth(e.value)} placeholder={t('date')} />
+          </div>
         </div>
         <div>
-          <CustomButton title={t("add")} onpress={() => handleAddRent()} />
+          {loading? (<CustomLoading />):(<CustomButton title={t("add")} onpress={() => handleAddRent()} />)}
+        
         </div>
       </div>
       <div className="bg-white my-3 p-2">
         <DataTable columns={columns} data={rents} pagination selectableRows />
       </div>
+     </div>
     </div>
   );
 }

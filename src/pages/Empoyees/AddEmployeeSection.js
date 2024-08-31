@@ -44,6 +44,11 @@ export default function AddEmployeeSection() {
 
       setLoading(false);
       setStaffModel(true);
+      setName("");
+      setSalary("");
+      setDiscount("");
+      setAdvance("");
+      setComments("");
       setPosition("top-right");
       
     } catch (error) {

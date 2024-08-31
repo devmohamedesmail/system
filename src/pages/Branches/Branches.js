@@ -57,9 +57,9 @@ export default function Branches() {
   };
 
   return (
-    <div>
+    <div className="p-2 ">
       <CustomPageTitle title={t("branches")} />
-      <div className="bg-white p-3 my-3 ">
+      <div className="bg-white p-2 my-3">
         <CustomSectionTitle title={t("addnewbranch")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -112,7 +112,7 @@ export default function Branches() {
         <BranchTable branches={branches} fetchBranches={fetchBranches} />
       </div>
 
-      <div></div>
+      
     </div>
   );
 }

@@ -8,10 +8,12 @@ import CustomButton from "../../custom/CustomButton";
 import axios from "axios";
 import { Setting } from "../../utilties/Setting";
 import { Calendar } from "primereact/calendar";
+import CustomLoading from "../../custom/CustomLoading";
+import CustomCalender from "../../custom/CustomCalender";
 
 
 
-export default function AddPurchases() {
+export default function AddPurchases({fetchpurchases}) {
     const { t } = useTranslation();
     const [branch, setBranch] = useState(null);
     const [department, setDepartment] = useState(null);
@@ -25,7 +27,8 @@ export default function AddPurchases() {
     const [departmentName,setDepartmentName]=useState("")
     const[branchError,setBranchError]=useState(false)
     const[departmentError,setDepartmentError]=useState(false)
-    const [purchases, setPurchases] = useState();
+    
+    const [loading, setLoading] = useState(false);
 
     const handleAddPurchase = async () => {
       if (branch === null) {
@@ -36,6 +39,7 @@ export default function AddPurchases() {
         setDepartmentError(true)
         return;
       }
+      setLoading(true)
       try {
         await axios.post(`${Setting.url}add/purchases`, {
           branch,
@@ -45,16 +49,21 @@ export default function AddPurchases() {
           price,
           date,
         });
+        setTitle("");
+        setQuantity("");
+        setPrice("");
+        setDate("");
         fetchpurchases();
+        setLoading(false);
       } catch (error) {
-        alert(error);
+        alert(t('error'));
+        setLoading(false);
+      }finally{
+        setLoading(false);
       }
     };
 
-    const fetchpurchases = async () => {
-        const response = await axios.get(`${Setting.url}show/purchases`);
-        setPurchases(response.data.data);
-    };
+  
   
   return (
     <div>
@@ -109,11 +118,11 @@ export default function AddPurchases() {
             />
           </div>
           <div className="">
-            <Calendar value={date} onChange={(e) => setDate(e.value)} />
+            <CustomCalender value={date} onchange={(e) => setDate(e.value)} placeholder={t('date')} />
           </div>
         </div>
         <div>
-          <CustomButton title={t("add")} onpress={() => handleAddPurchase()} />
+          {loading? (<CustomLoading />):(<CustomButton title={t("add")} onpress={() => handleAddPurchase()} />)}
         </div>
     </div>
   )
