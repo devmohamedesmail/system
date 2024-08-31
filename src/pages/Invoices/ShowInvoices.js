@@ -124,6 +124,8 @@ export default function ShowInvoices() {
     printWindow.print();
   };
 
+  
+
   const handleDelete = async (row) => {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
     if (userConfirmed) {

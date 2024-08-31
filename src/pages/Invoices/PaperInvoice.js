@@ -17,7 +17,7 @@ export default function PaperInvoice({ data, notes }) {
       <div className="header-invoice flex flex-row justify-between items-center">
         <Logo width={100} />
         <div className="flex flex-col justify-end items-center">
-          <p className="arabic-font font-bold text-right">
+          <p className="arabic-font font-bold text-right arabic-font">
             الاخطبوط الذهبي لصيانه واصلاح السيارات
           </p>
           <p className="font-bold">
@@ -66,39 +66,39 @@ export default function PaperInvoice({ data, notes }) {
 
       <div className="client-info my-5 grid grid-cols-2">
         <div className="flex item-center justify-end my-2">
-          <p className="mx-1"> {data.phone} </p>
-          <p className="mx-1"> : رقم الهاتف </p>
+          <p className="mx-1 text-sm"> {data.phone} </p>
+          <p className="mx-1 text-sm"> : رقم الهاتف </p>
         </div>
 
         <div className="flex item-center justify-end my-2">
-          <p className="mx-1">{data.name} </p>
-          <p className="mx-1"> : اسم العميل </p>
+          <p className="mx-1 text-sm">{data.name} </p>
+          <p className="mx-1 text-sm"> : اسم العميل </p>
         </div>
 
         <div className="flex item-center justify-end my-2">
-          <p className="mx-1"> {formatDate(date)} </p>
-          <p className="mx-1"> : التاريخ </p>
+          <p className="mx-1 text-sm"> {formatDate(date)} </p>
+          <p className="mx-1 text-sm"> : التاريخ </p>
         </div>
         <div className="flex item-center justify-end my-2">
-          <p className="mx-1"> {data.invoiceNumber} </p>
-          <p className="mx-1"> : رقم الفاتوره </p>
+          <p className="mx-1 text-sm"> {data.invoiceNumber} </p>
+          <p className="mx-1 text-sm"> : رقم الفاتوره </p>
         </div>
       </div>
 
       <div className="grid grid-cols-6 grid-rows-2">
-        <p className="text-center">Car Number</p>
-        <p className="text-center">Car Type</p>
-        <p className="text-center">Service Type</p>
-        <p className="text-center">Service Price</p>
-        <p className="text-center">VAT (5%)</p>
-        <p className="text-center">Total Price</p>
+        <p className="text-center text-sm">Car Number</p>
+        <p className="text-center text-sm">Car Type</p>
+        <p className="text-center text-sm">Service Type</p>
+        <p className="text-center text-sm">Service Price</p>
+        <p className="text-center text-sm">VAT (5%)</p>
+        <p className="text-center text-sm">Total Price</p>
 
-        <p className="text-center">{data.carNo}</p>
-        <p className="text-center">{data.carType}</p>
-        <p className="text-center">{data.carService}</p>
-        <p className="text-center">{data.price}</p>
-        <p className="text-center">{data.price * 0.05}</p>
-        <p className="text-center">{data.price + data.price * 0.05}</p>
+        <p className="text-center text-sm">{data.carNo}</p>
+        <p className="text-center text-sm">{data.carType}</p>
+        <p className="text-center text-sm">{data.carService}</p>
+        <p className="text-center text-sm">{data.price}</p>
+        <p className="text-center text-sm">{data.price * 0.05}</p>
+        <p className="text-center text-sm">{data.price + data.price * 0.05}</p>
       </div>
 
       <div className="notes mt-10">
