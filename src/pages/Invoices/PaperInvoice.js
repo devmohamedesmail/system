@@ -107,8 +107,12 @@ export default function PaperInvoice({ data, notes }) {
           <p className="text-xs"> : وصف السياره </p>
         </div>
         <div className="flex item-center justify-end my-2">
-          <p className="text-xs"> {data.note ? (<p>{data.note}</p>):(<p> لا يوجد ملاحظات </p>)} </p>
+          <p className="text-xs"> {data.note ? (<p className="text-xs">{data.note}</p>):(<p className="text-xs"> لا يوجد ملاحظات </p>)} </p>
           <p className="text-xs"> : الملاحظات </p>
+        </div>
+        <div className="flex item-center justify-end my-2">
+          <p className="text-xs"> {data.percent} </p>
+          <p className="text-xs"> : النسبه </p>
         </div>
       </div>
 
