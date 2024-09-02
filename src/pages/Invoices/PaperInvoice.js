@@ -85,7 +85,7 @@ export default function PaperInvoice({ data, notes }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-6 grid-rows-2">
+      <div className="grid grid-cols-6 ">
         <p className="text-center text-sm border border-black p-1 border-b-0">Car Number</p>
         <p className="text-center text-sm border border-black p-1 border-b-0">Car Type</p>
         <p className="text-center text-sm border border-black p-1 border-b-0">Service Type</p>
@@ -93,30 +93,30 @@ export default function PaperInvoice({ data, notes }) {
         <p className="text-center text-sm border border-black p-1 border-b-0">VAT (5%)</p>
         <p className="text-center text-sm border border-black p-1 border-b-0">Total Price</p>
 
-        <p className="text-center text-sm border border-black p-1 ">{data.carNo}</p>
-        <p className="text-center text-sm border border-black p-1 ">{data.carType}</p>
-        <p className="text-center text-sm border border-black p-1 ">{data.carService}</p>
-        <p className="text-center text-sm border border-black p-1 ">{data.price}</p>
-        <p className="text-center text-sm border border-black p-1 ">{parseInt(data.price) * 0.05}</p>
-        <p className="text-center text-sm border border-black p-1 "> {parseInt(data.price, 10) + parseInt(data.price, 10) * 0.05}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">{data.carNo}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">{data.carType}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">{data.carService}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">{data.price}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">{parseInt(data.price) * 0.05}</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0"> {parseInt(data.price, 10) + parseInt(data.price, 10) * 0.05}</p>
+
+        <p className="text-xs col-span-5 text-right border border-black p-1 border-b-0"> {data.description} </p>
+        <p className="text-xs text-center border border-black p-1 border-b-0">  وصف السياره </p>
+
+
+        <p className="text-xs col-span-5 text-right border border-black p-1 border-b-0"> {data.note ? data.note :"لا يو جد ملاحظات "} </p>
+        <p className="text-xs text-center border border-black p-1 border-b-0"> الملاحظات </p>
+
+ 
+
+        <p className="text-xs col-span-5 text-right border border-black p-1"> {data.percent} </p>
+        <p className="text-xs text-center border border-black p-1">  النسبه </p>
+
       </div>
 
-      <div className="notes mt-10">
-        <div className="flex item-center justify-end my-2">
-          <p className="text-xs"> {data.description} </p>
-          <p className="text-xs"> : وصف السياره </p>
-        </div>
-        <div className="flex item-center justify-end my-2">
-          <p className="text-xs"> {data.note ? (<p className="text-xs">{data.note}</p>):(<p className="text-xs"> لا يوجد ملاحظات </p>)} </p>
-          <p className="text-xs"> : الملاحظات </p>
-        </div>
-        <div className="flex item-center justify-end my-2">
-          <p className="text-xs"> {data.percent} </p>
-          <p className="text-xs"> : النسبه </p>
-        </div>
-      </div>
+   
 
-      <div>
+      <div className="mt-10">
         <p className="text-right font-bold mb-3"> الشروط والا حكام </p>
         {notes && notes.length > 0 ? (
           <>
