@@ -86,19 +86,19 @@ export default function PaperInvoice({ data, notes }) {
       </div>
 
       <div className="grid grid-cols-6 grid-rows-2">
-        <p className="text-center text-sm">Car Number</p>
-        <p className="text-center text-sm">Car Type</p>
-        <p className="text-center text-sm">Service Type</p>
-        <p className="text-center text-sm">Service Price</p>
-        <p className="text-center text-sm">VAT (5%)</p>
-        <p className="text-center text-sm">Total Price</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">Car Number</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">Car Type</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">Service Type</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">Service Price</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">VAT (5%)</p>
+        <p className="text-center text-sm border border-black p-1 border-b-0">Total Price</p>
 
-        <p className="text-center text-sm">{data.carNo}</p>
-        <p className="text-center text-sm">{data.carType}</p>
-        <p className="text-center text-sm">{data.carService}</p>
-        <p className="text-center text-sm">{data.price}</p>
-        <p className="text-center text-sm">{data.price * 0.05}</p>
-        <p className="text-center text-sm">{data.price + data.price * 0.05}</p>
+        <p className="text-center text-sm border border-black p-1 ">{data.carNo}</p>
+        <p className="text-center text-sm border border-black p-1 ">{data.carType}</p>
+        <p className="text-center text-sm border border-black p-1 ">{data.carService}</p>
+        <p className="text-center text-sm border border-black p-1 ">{data.price}</p>
+        <p className="text-center text-sm border border-black p-1 ">{parseInt(data.price) * 0.05}</p>
+        <p className="text-center text-sm border border-black p-1 "> {parseInt(data.price, 10) + parseInt(data.price, 10) * 0.05}</p>
       </div>
 
       <div className="notes mt-10">
