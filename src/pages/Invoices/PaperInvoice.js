@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../components/Logo/Logo";
-import axios from "axios";
-import { Setting } from "../../utilties/Setting";
+
+
 
 const formatDate = (date) => {
   const day = String(date.getDate()).padStart(2, '0');
@@ -103,7 +103,7 @@ export default function PaperInvoice({ data, notes }) {
         <p className="text-xs col-span-5 text-right border border-black p-1 border-b-0"> {data.description} </p>
         <p className="text-xs text-center border border-black p-1 border-b-0">  وصف السياره </p>
 
-
+        
         <p className="text-xs col-span-5 text-right border border-black p-1 border-b-0"> {data.note ? data.note :"لا يو جد ملاحظات "} </p>
         <p className="text-xs text-center border border-black p-1 border-b-0"> الملاحظات </p>
 
@@ -137,7 +137,7 @@ export default function PaperInvoice({ data, notes }) {
           <p> --------------------- </p>
         </div>
         <div className="flex flex-col">
-          <p> Authorized Signature </p>
+          <p> Customer Signature </p>
           <p> --------------------- </p>
         </div>
       </div>

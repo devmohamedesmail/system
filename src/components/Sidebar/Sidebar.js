@@ -215,11 +215,11 @@ export default function Sidebar() {
             <></>
           )}
 
-          {/* <SidebarNavItem
+          <SidebarNavItem
             icon={<IoSettings color="black" size={20} />}
             title={t("setting")}
             link="setting/page"
-          /> */}
+          />
         </ul>
       </nav>
     </div>
