@@ -29,7 +29,10 @@ export default function EditEmployee() {
   const [position, setPosition] = useState("center");
   const [departmentName,setDepartmentName]=useState();
 
+
   const handleUpdateEmployee = async () => {
+   try {
+    setLoading(true);
     await axios.post(`${Setting.url}update/staff/${employee.id}`, {
       department,
       name,
@@ -41,6 +44,13 @@ export default function EditEmployee() {
     setLoading(false);
     setVisible(true);
     setPosition("top-right");
+    setLoading(false);
+   } catch (error) {
+    alert(t('errorhappened'))
+    setLoading(false);
+   }finally{
+    setLoading(false);
+   }
   };
   return (
     <div>

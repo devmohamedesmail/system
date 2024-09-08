@@ -35,8 +35,16 @@ export default function AddInvoice() {
   const [Rdate, setRdate] = useState("");
   const [percent, setPercent] = useState("");
   const [paidMethod, setpaidMethod] = useState(null);
-  const [invoicesTypes, fetchInvoiceTypes,methodTypes,fetchMethodTypes,invoices,fetchInvoices,departments,fetchDepartments] =
-    useContext(DataContext);
+  const [
+    invoicesTypes,
+    fetchInvoiceTypes,
+    methodTypes,
+    fetchMethodTypes,
+    invoices,
+    fetchInvoices,
+    departments,
+    fetchDepartments,
+  ] = useContext(DataContext);
   const [loading, setLoading] = useState(false);
   const [branchError, setbranchError] = useState("");
   const [visible, setVisible] = useState(false);
@@ -46,7 +54,6 @@ export default function AddInvoice() {
 
   // add invoice function
   const handleAddInvoice = async () => {
-    
     if (!branch) {
       alert("Branch cannot be null. Please select a branch.");
       return; // Exit the function early
@@ -71,7 +78,7 @@ export default function AddInvoice() {
         percent,
         sales,
       });
-      fetchInvoices()
+      fetchInvoices();
       setLoading(false);
       setVisible(true);
       setPosition("top-right");
@@ -104,8 +111,16 @@ export default function AddInvoice() {
   return (
     <div className="p-4 ">
       <CustomPageTitle title={t("addinvoice")} />
-      <div className={`my-2 flex ${i18n.language === 'ar' ? 'justify-end' :''}`}>
-        <Link to='/dashboard/show/all/invoices' className="bg-primary p-2 rounded-full text-white text-xs">{t('showinvoices')}</Link></div>
+      <div
+        className={`my-2 flex bg-white p-2 ${i18n.language === "ar" ? "justify-end" : ""}`}
+      >
+        <Link
+          to="/dashboard/show/all/invoices"
+          className="bg-primary p-2 rounded-full text-white text-xs"
+        >
+          {t("showinvoices")}
+        </Link>
+      </div>
 
       <div className="bg-white my-3 p-3">
         <h2
@@ -218,10 +233,17 @@ export default function AddInvoice() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-          <CustomCalender value={Ddate}  onchange={(e) => setDdate(e.value)} placeholder={t("ddate")} />
-          
-          <CustomCalender value={Rdate}  onchange={(e) => setRdate(e.value)} placeholder={t("rdate")} />
+          <CustomCalender
+            value={Ddate}
+            onchange={(e) => setDdate(e.value)}
+            placeholder={t("ddate")}
+          />
+
+          <CustomCalender
+            value={Rdate}
+            onchange={(e) => setRdate(e.value)}
+            placeholder={t("rdate")}
+          />
 
           <CustomInput
             placeholder={t("percent")}

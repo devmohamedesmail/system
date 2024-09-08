@@ -9,9 +9,7 @@ import { SidebarContext } from "../../context/SideBarProvider";
 import { FaCodeBranch } from "react-icons/fa";
 import { VscSettings } from "react-icons/vsc";
 import { FaUsersBetweenLines } from "react-icons/fa6";
-import { FaRegNewspaper } from "react-icons/fa6";
 import { IoSettings } from "react-icons/io5";
-import { HiUsers } from "react-icons/hi2";
 import { FaShoppingBasket } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import { FaWarehouse } from "react-icons/fa";
@@ -35,7 +33,7 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`flex top-0 bottom-0  flex-col w-64 rounded-tr-lg rounded-br-lg  min-h-full text-white transition-max-width duration-300 bg-white ${
+      className={`flex top-0 bottom-0 rounded-3xl  flex-col w-fit rounded-tr-lg rounded-br-lg  min-h-full text-white transition-max-width duration-300 bg-white ${
         sidebarstatus ? "max-w-xs" : "max-w-0 overflow-hidden"
       } `}
     >
@@ -75,11 +73,14 @@ export default function Sidebar() {
 
           <li>
             <button
-              className="w-full text-left py-2 px-4 my-1 items-center focus:outline-none flex justify-between  transition-colors duration-1000 ease-in-out hover:bg-primary"
+              className="w-full text-left py-2 px-4 my-1 items-center focus:outline-none flex justify-between  transition-colors duration-1000 ease-in-out hover:bg-primary " 
               onClick={() => handleDropdownToggle("invoices")}
             >
               <div className="flex items-center">
-                <LiaFileInvoiceSolid color="black" size={20} />
+               
+                <span className="shadow-md rounded-2xl p-2">
+                   <LiaFileInvoiceSolid color="black" size={20} />
+                </span>
                 <span className="text-black ml-3 text-sm">{t("invoices")}</span>
               </div>
               <IoChevronDownOutline color="black" size={20} />
@@ -105,44 +106,6 @@ export default function Sidebar() {
             </ul>
           </li>
 
-          <li>
-            <button
-              className="w-full text-left py-2 px-4 my-1 items-center focus:outline-none flex justify-between  transition-colors duration-1000 ease-in-out hover:bg-primary"
-              onClick={() => handleDropdownToggle("cars")}
-            >
-              <div className="flex items-center">
-                <LiaCarSideSolid color="black" size={20} />
-                <span className="text-black ml-3 text-sm">{t("cars")}</span>
-              </div>
-              <IoChevronDownOutline color="black" size={20} />
-            </button>
-
-            <ul
-              className={`${
-                openDropdown === "cars"
-                  ? "h-fit transition-height ease-in-out duration-1000 bg-slate-200"
-                  : "max-h-0 transition-height overflow-hidden ease-in-out duration-1000"
-              }`}
-            >
-              <SidebarDropdownItem
-                icon={<GoDotFill color="black" /> }
-                link="invoices/problems"
-                title={t("problems")}
-              />
-              <SidebarDropdownItem
-                icon={<GoDotFill color="black" />}
-                link="car/stages"
-                title={t("stages")}
-              />
-              <SidebarDropdownItem
-                icon={<GoDotFill color="black" /> }
-                link="cars/page"
-                title={t("mycars")}
-              />
-
-              
-            </ul>
-          </li>
 
           <li>
             <button
@@ -150,7 +113,10 @@ export default function Sidebar() {
               onClick={() => handleDropdownToggle("employees")}
             >
               <div className="flex items-center">
-                <FaUsersBetweenLines color="black" size={20} />
+                <span className="shadow-md rounded-2xl p-2">
+                   <FaUsersBetweenLines color="black" size={20} />
+                </span>
+               
                 <span className="text-black ml-3 text-sm">{t("employees")}</span>
               </div>
               <IoChevronDownOutline color="black" size={20} />

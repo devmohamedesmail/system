@@ -18,13 +18,26 @@ import * as XLSX from "xlsx";
 import TableButton from "../../components/InvoicesComponents/TableButton";
 import CustomSelect from "../../custom/CustomSelect";
 import { BranchesContext } from "../../context/BranchesProvider";
-import { AuthContext } from "../../context/AuthProvider";
 import { ImportExcel } from "../../utilties/ImportExcel";
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+import CustomSelectOption from "../../custom/CustomSelectOption";
+import { Sidebar } from "primereact/sidebar";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import SalesTargetSection from "./SalesTargetSection";
 
 export default function ShowInvoices() {
-  const [, , methodTypes, , invoices, fetchInvoices, , ,] =
-    useContext(DataContext);
+  const [
+    invoicesTypes,
+    fetchInvoiceTypes,
+    methodTypes,
+    fetchMethodTypes,
+    invoices,
+    fetchInvoices,
+    departments,
+    fetchDepartments,
+    staff,
+    fetchStaff,
+  ] = useContext(DataContext);
   const { branches, fetchBranches } = useContext(BranchesContext);
   const { t } = useTranslation();
   const [records, setrecords] = useState();
@@ -36,13 +49,21 @@ export default function ShowInvoices() {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [notes, setNotes] = useState();
-  const { auth, setauth } = useContext(AuthContext);
+  const [branchName, setBranchName] = useState("");
+  const [methodType, setMethodType] = useState("");
+  const [visibleRight, setVisibleRight] = useState(false);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     setrecords(invoices);
   }, [invoices]);
 
   const columns = [
+    {
+      name: "ID",
+      selector: (row) => row.id,
+      sortable: true,
+    },
     {
       name: t("name"),
       selector: (row) => row.name,
@@ -51,29 +72,17 @@ export default function ShowInvoices() {
 
     {
       name: t("carno"),
-      selector: (row) => row.carNo, // Adjusted to match property name
-      sortable: true,
-    },
-    {
-      name: t("cartype"),
-      selector: (row) => row.carType, // Adjusted to match property name
-      sortable: true,
-    },
-    {
-      name: t("carservice"),
-      selector: (row) => row.carService, // Adjusted to match property name
+      selector: (row) => row.carNo,
       sortable: true,
     },
     {
       name: t("price"),
-      selector: (row) => row.price, // Adjusted to match property name
+      selector: (row) => row.price,
       sortable: true,
     },
     {
       name: t("action"),
       cell: (row) => {
-        // const navigate = useNavigate();
-
         const handleEdit = () => {
           navigate("/dashboard/invoice/edit", { state: { invoice: row } });
         };
@@ -124,8 +133,6 @@ export default function ShowInvoices() {
     printWindow.print();
   };
 
-  
-
   const handleDelete = async (row) => {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
     if (userConfirmed) {
@@ -145,7 +152,12 @@ export default function ShowInvoices() {
 
   const handleFilter = (event) => {
     const newData = invoices.filter((row) => {
-      return row.carNo.toLowerCase().includes(event.target.value.toLowerCase());
+      return (
+        row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        row.name.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        row.price.toString().includes(event.target.value)
+      );
     });
     setrecords(newData);
   };
@@ -174,21 +186,18 @@ export default function ShowInvoices() {
   };
 
   const handleBranchChange = (event) => {
-    setSelectedBranch(event.target.value);
+    setSelectedBranch(event.target.value.id);
+    setBranchName(event.target.value.name);
   };
 
   const handleMethodChange = (event) => {
-    setSelectedMethod(event.target.value);
+    setSelectedMethod(event.target.value.method);
+    setMethodType(event.target.value.method);
   };
 
   useEffect(() => {
     const calculateTotalPrice = () => {
-      console.log("Calculating total price with:");
-      console.log("Selected Branch:", selectedBranch);
-      console.log("Selected Method:", selectedMethod);
-
       let price = 0;
-
       invoices.forEach((invoice) => {
         const invoicePrice = parseFloat(invoice.price);
 
@@ -196,20 +205,15 @@ export default function ShowInvoices() {
           console.error("Invalid price in invoice:", invoice.price);
           return;
         }
-
-        console.log("Checking invoice:", invoice);
-
         if (
           (selectedBranch === null ||
             invoice.branch_id === parseInt(selectedBranch, 10)) &&
           (selectedMethod === null || invoice.paidMethod === selectedMethod)
         ) {
           price += invoicePrice;
-          console.log("Adding price:", invoicePrice);
+          // console.log("Adding price:", invoicePrice);
         }
       });
-
-      console.log("Total calculated price:", price);
       return price;
     };
 
@@ -226,88 +230,117 @@ export default function ShowInvoices() {
 
   useEffect(() => {
     fetchInvoiceNotes();
+    fetchusers();
   }, []);
+
+  const fetchusers = async () => {
+    try {
+      const response = await axios.get(`${Setting.url}show/users`);
+      setUsers(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="m-3">
       <CustomPageTitle title="Show All Invoices" />
-      <div className="">
-        <div className="bg-white py-2 px-3 my-3">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            <div className="flex justify-center ">
-              <TableButton title={t("download")} onclick={handleExport} />
-            </div>
-            <div className="flex justify-center ">
-              <div className="flex items-center border rounded-full w-fit">
-                <label htmlFor="excel" className="mx-3 hover:cursor-pointer">
-                  <PiMicrosoftExcelLogoFill color="green" />
-                  <input
-                    id="excel"
-                    type="file"
-                    className="hidden"
-                    onChange={onFileChange}
-                  />
-                </label>
-
-                <TableButton title={t("Upload")} onclick={onUpload} />
-              </div>
-            </div>
-
-            <div className="flex justify-center ">
+      <div className="card flex justify-content-center">
+        <Sidebar
+          visible={visibleRight}
+          position="right"
+          onHide={() => setVisibleRight(false)}
+        >
+          <div>
+            <div className="my-2">
               {branches && branches.length > 0 ? (
-                <CustomSelect
-                  title={t("branch")}
-                  value={selectedOption}
-                  data={branches}
-                  itemTitleKey="id"
-                  itemtitle="name"
-                  itemvalue="id"
+                <CustomSelectOption
+                  value={branchName}
+                  options={branches}
                   onchange={handleBranchChange}
+                  labelTitle="name"
+                  placeholder={t("branch")}
+                />
+              ) : (
+                <> </>
+              )}
+            </div>
+
+            <div className="my-2">
+              {methodTypes && methodTypes.length > 0 ? (
+                <CustomSelectOption
+                  value={methodType}
+                  onchange={handleMethodChange}
+                  options={methodTypes}
+                  labelTitle="method"
+                  placeholder={t("selectpaidmethod")}
                 />
               ) : (
                 <></>
               )}
             </div>
 
-            <div>
-              {methodTypes && methodTypes.length > 0 ? (
-                <>
-                  <CustomSelect
-                    title={t("selectpaidmethod")}
-                    value={selectedOption}
-                    data={methodTypes}
-                    itemTitleKey="id"
-                    itemtitle="method"
-                    itemvalue="method"
-                    onchange={handleMethodChange}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
-
-            <div>
-              <h3 className="bg-light px-4 py-2 rounded-full mx-4">
+            <div className="my-2">
+              <h3 className="bg-primary text-center text-white p-3">
                 {totalPrice.toFixed(2)}
               </h3>
             </div>
 
-            <div>
+            <hr className="h-2 w-100" />
+            <SalesTargetSection users={users} />
+          </div>
+        </Sidebar>
+      </div>
+
+      <div className="">
+        <div className="bg-white py-2 px-3 my-3">
+          <div className="flex item-center justify-between">
+            <div className="flex item-center">
+              <div className="flex justify-center mx-3">
+                <TableButton title={t("download")} onclick={handleExport} />
+              </div>
+              <div className="flex justify-center ">
+                <div className="flex items-center border rounded-full w-fit">
+                  <label htmlFor="excel" className="mx-3 hover:cursor-pointer">
+                    <PiMicrosoftExcelLogoFill color="green" />
+                    <input
+                      id="excel"
+                      type="file"
+                      className="hidden"
+                      onChange={onFileChange}
+                    />
+                  </label>
+
+                  <TableButton title={t("Upload")} onclick={onUpload} />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center">
+              <button
+                className="bg-primary p-2 rounded-full mx-5"
+                onClick={() => setVisibleRight(true)}
+              >
+                <FaArrowLeftLong color="white" />
+              </button>
               <TableSearchBox onchange={handleFilter} />
             </div>
           </div>
         </div>
 
-        <div className="my-3 px-3 bg-white">
-        <DataTable
+        {records ? (
+          <div className="my-3 px-3 bg-white">
+            <DataTable
               columns={columns}
               data={records}
               pagination
               fixedHeader
               selectableRows
             />
-        </div>
+          </div>
+        ) : (
+          <CustomLoading />
+        )}
       </div>
     </div>
   );

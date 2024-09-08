@@ -76,7 +76,7 @@ export default function DataProvider({ children }) {
         departments,
         fetchDepartments,
         staff,
-        fetchStaff,
+        fetchStaff
       ]}
     >
       {children}

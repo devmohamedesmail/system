@@ -16,6 +16,7 @@ import TableButton from "../../components/InvoicesComponents/TableButton";
 import CustomTableButton from "../../custom/CustomTableButton";
 import CustomTableButtonUpload from "../../custom/CustomTableButtonUpload";
 import { ImportExcel } from "../../utilties/ImportExcel";
+import CustomLoading from "../../custom/CustomLoading";
 
 export default function Employees() {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ export default function Employees() {
   const [position, setPosition] = useState("center");
   const navigate = useNavigate();
   const [records, setrecords] = useState();
-  const [file,setFile]=useState(null)
+  const [file, setFile] = useState(null);
 
   const columns = [
     {
@@ -67,9 +68,13 @@ export default function Employees() {
   ];
 
   const fetchStaff = async () => {
-    const response = await axios.get(`${Setting.url}show/staff`);
-    setStaff(response.data.data);
-    setrecords(response.data.data);
+    try {
+      const response = await axios.get(`${Setting.url}show/staff`);
+      setStaff(response.data.data);
+      setrecords(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeleteStaff = async (row) => {
@@ -100,41 +105,56 @@ export default function Employees() {
     ExportExcel(staff, "staff.xlsx");
   };
 
-  const handleUplaodFile = async () =>{
-    const endpoint = 'import/staff';
+  const handleUplaodFile = async () => {
+    const endpoint = "import/staff";
     if (file) {
-      await ImportExcel(endpoint,file)
+      await ImportExcel(endpoint, file);
     } else {
-      alert(`${t('pleaseselect')}`)
+      alert(`${t("pleaseselect")}`);
     }
-  }
+  };
   return (
-    <div>
+    <div className="p-2">
       <CustomPageTitle title={t("employees")} />
       <div className="my-2 bg-white p-2">
         <div className="flex item-center justify-between px-5 my-5">
           <div className="flex items-center">
-          <CustomTableButton title={t("downlaod")}  onclick={() => handleExportExcel()} />
-          
+            <CustomTableButton
+              title={t("downlaod")}
+              onclick={() => handleExportExcel()}
+            />
+
             <div className="flex items-center  border-2 rounded-full p-1">
               <label htmlFor="excel" className="text-xs">
-                   {t("selectexcel")}
-                   <input id="excel"  type="file" className="hidden" onChange={(e)=>setFile(e.target.files[0])} />
+                {t("selectexcel")}
+                <input
+                  id="excel"
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
               </label>
-              <CustomTableButtonUpload title={t("upload")} onclick={()=>handleUplaodFile()} /> 
+              <CustomTableButtonUpload
+                title={t("upload")}
+                onclick={() => handleUplaodFile()}
+              />
             </div>
           </div>
-          
+
           <TableSearchBox onchange={handleFilter} />
         </div>
 
-        <DataTable
-          columns={columns}
-          data={records}
-          pagination
-          selectableRows
-          fixedHeader
-        />
+        {staff ? (
+          <DataTable
+            columns={columns}
+            data={records}
+            pagination
+            selectableRows
+            fixedHeader
+          />
+        ) : (
+          <CustomLoading />
+        )}
       </div>
       <CustomModal
         visible={visible}

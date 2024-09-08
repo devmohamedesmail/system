@@ -1,19 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 /* Core styles */
-@import 'primereact/resources/themes/saga-blue/theme.css'; /* Change theme if desired */
-@import 'primereact/resources/primereact.min.css';
-@import 'primeicons/primeicons.css';
+@import "primereact/resources/themes/saga-blue/theme.css"; /* Change theme if desired */
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
 
-
-.arabic-font{
-    font-family: "Cairo", sans-serif;
-}
-.arabic-font *{
-    font-family: "Cairo", sans-serif;
+:root {
+  --main-color: #eb5e28;
 }
 
+.arabic-font {
+  font-family: "Cairo", sans-serif;
+}
+.arabic-font * {
+  font-family: "Cairo", sans-serif;
+}
+
+.input-form:focus + .input-label {
+  top: -13px;
+  border: 1px solid var(--main-color);
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  animation-name: input-animation;
+  animation-duration: 1s;
+}
+
+@keyframes input-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
