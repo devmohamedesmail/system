@@ -20,10 +20,10 @@
 }
 
 .input-form:focus + .input-label {
-  top: -13px;
+  top: -5px;
   border: 1px solid var(--main-color);
   background-color: white;
-  padding: 5px 10px 5px 10px;
+  padding: 2px 8px 2px 8px;
   border-radius: 5px;
   animation-name: input-animation;
   animation-duration: 1s;

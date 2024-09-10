@@ -10,16 +10,21 @@ import { MdEdit } from "react-icons/md";
 import * as XLSX from "xlsx";
 import { BranchesContext } from "../../context/BranchesProvider";
 import { DataContext } from "../../context/DataProvider";
+import CustomSelectOption from "../../custom/CustomSelectOption";
+import TableSearchBox from "../TableSearchBox/TableSearchBox";
 
-export default function PurchasesTable({ fetchpurchases,purchases }) {
-  
+export default function PurchasesTable({ fetchpurchases, purchases }) {
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedBranch, setSelectedBranch] = useState("");
+  const [branchItem, setBranchITem] = useState();
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [departmentITem, setDepartmentITem] = useState("")
   const { branches, fetchBranches } = useContext(BranchesContext);
   const [, , , , , , departments, ,] = useContext(DataContext);
+  const [records,setrecords]=useState()
 
   const columns = [
     {
@@ -76,6 +81,9 @@ export default function PurchasesTable({ fetchpurchases,purchases }) {
     },
   ];
 
+  useEffect(()=>{
+    setrecords(purchases)
+  },[purchases])
 
   useEffect(() => {
     calculateTotalPrice();
@@ -84,11 +92,11 @@ export default function PurchasesTable({ fetchpurchases,purchases }) {
   const handledeleteitem = async (row) => {
     try {
       const fonfirm = window.confirm(t("alertdelete"));
-      if(fonfirm){
+      if (fonfirm) {
         await axios.delete(`${Setting.url}delete/purchases/${row.id}`);
         fetchpurchases();
       }
-     
+
     } catch (error) {
       alert(t('error'));
     }
@@ -126,19 +134,39 @@ export default function PurchasesTable({ fetchpurchases,purchases }) {
   };
 
   const handleBranchChange = (event) => {
-    setSelectedBranch(event.target.value);
+    setSelectedBranch(event.target.value.id);
+    setBranchITem(event.target.value)
+
   };
 
   const handleDepartmentChange = (event) => {
-    setSelectedDepartment(event.target.value);
+    setSelectedDepartment(event.target.value.id);
+    setDepartmentITem(event.target.value)
+    const newData = purchases.filter((row) => {
+      return (
+        row.department.name.toLowerCase().includes(event.target.value.name.toLowerCase()) 
+        
+      );
+    });
+    setrecords(newData);
   };
 
-  // const branchess = [...new Set(purchases.map(p => p.branch))];
-  // const departmentss = [...new Set(purchases.map(p => p.department))];
+
+  const handleFilter = (event) => {
+    const newData = purchases.filter((row) => {
+      return (
+        row.title.toLowerCase().includes(event.target.value.toLowerCase()) 
+        
+      );
+    });
+    setrecords(newData);
+  };
+
 
   return (
     <div className="my-3 p-2 bg-white">
-      <div className="flex items-center">
+    <div className="flex justify-between items-center">
+    <div className="flex items-center my-5 px-4">
         <button
           className="bg-primary px-3 py-2 rounded-full text-white"
           onClick={() => handleExport()}
@@ -147,45 +175,45 @@ export default function PurchasesTable({ fetchpurchases,purchases }) {
         </button>
 
         <div className="flex items-center">
-          {branches && branches.length > 0 ? (
-            <select
-              className="bg-primary px-10 py-2 rounded-full text-white mx-3"
-              value={selectedBranch}
-              onChange={handleBranchChange}
-            >
-              <option value="">{t("branch")}</option>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.name}
-                </option>
-              ))}
-            </select>
+         <div className="mx-3">
+         {branches && branches.length > 0 ? (
+            <CustomSelectOption
+              value={branchItem}
+              options={branches}
+              onchange={handleBranchChange}
+              labelTitle="name"
+              placeholder={t("branch")}
+            />
           ) : (
             <></>
           )}
+         </div>
 
-          {departments && departments.length > 0 ? (
-            <select
-              className="bg-primary px-10 py-2 rounded-full text-white mx-3"
-              value={selectedDepartment}
-              onChange={handleDepartmentChange}
-            >
-              <option value="">All</option>
-              {departments.map((department) => (
-                <option key={department.id} value={department.id}>
-                  {department.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <></>
-          )}
+
+          <div className="mx-3">
+            {departments && departments.length > 0 ? (
+              <CustomSelectOption
+                value={departmentITem}
+                options={departments}
+                onchange={handleDepartmentChange}
+                labelTitle="name"
+                placeholder={t("department")}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
           <p>Total Amount: {totalAmount}</p>
         </div>
+        
       </div>
+     <div>
+        <TableSearchBox onchange={handleFilter} />
+     </div>
+    </div>
       <DataTable
         columns={columns}
-        data={purchases}
+        data={records}
         pagination
         fixedHeader
         selectableRows
