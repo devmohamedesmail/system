@@ -16,6 +16,7 @@ import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import CustomCalender from "../../custom/CustomCalender";
 import CustomLoading from "../../custom/CustomLoading";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Rent() {
   const { t } = useTranslation();
@@ -27,6 +28,7 @@ export default function Rent() {
   const [rents, setRents] = useState();
   const [loading, setLoading] = useState(false);
   const[branchName,setBranchName]=useState("")
+  const {theme}=useTheme();
   const navigate = useNavigate();
 
   const handleAddRent = async () => {
@@ -116,10 +118,10 @@ export default function Rent() {
     <div className="p-2">
      <div className="container m-auto">
      <CustomPageTitle title={t("rent")} />
-      <div className="bg-white my-3 p-2">
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <CustomSectionTitle title={t("addrent")} />
         <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
-          <div>
+          <div className="mt-5">
             <CustomDropDownMenu
               value={branchName}
               optionLabel="name"
@@ -146,7 +148,7 @@ export default function Rent() {
             />
           </div>
         
-          <div>
+          <div className="mt-5">
               <CustomCalender value={month} onchange={(e) => setMonth(e.value)} placeholder={t('date')} />
           </div>
         </div>

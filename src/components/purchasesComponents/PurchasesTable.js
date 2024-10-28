@@ -12,6 +12,7 @@ import { BranchesContext } from "../../context/BranchesProvider";
 import { DataContext } from "../../context/DataProvider";
 import CustomSelectOption from "../../custom/CustomSelectOption";
 import TableSearchBox from "../TableSearchBox/TableSearchBox";
+import TableButton from "../InvoicesComponents/TableButton";
 
 export default function PurchasesTable({ fetchpurchases, purchases }) {
 
@@ -167,12 +168,9 @@ export default function PurchasesTable({ fetchpurchases, purchases }) {
     <div className="my-3 p-2 bg-white">
     <div className="flex justify-between items-center">
     <div className="flex items-center my-5 px-4">
-        <button
-          className="bg-primary px-3 py-2 rounded-full text-white"
-          onClick={() => handleExport()}
-        >
-          {t("download")}
-        </button>
+        
+
+        <TableButton title={t("download")} onclick={handleExport} />
 
         <div className="flex items-center">
          <div className="mx-3">

@@ -24,6 +24,7 @@ import CustomSelectOption from "../../custom/CustomSelectOption";
 import { Sidebar } from "primereact/sidebar";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import SalesTargetSection from "./SalesTargetSection";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function ShowInvoices() {
   const [
@@ -53,6 +54,7 @@ export default function ShowInvoices() {
   const [methodType, setMethodType] = useState("");
   const [visibleRight, setVisibleRight] = useState(false);
   const [users, setUsers] = useState([]);
+  const {theme}=useTheme();
 
   useEffect(() => {
     setrecords(invoices);
@@ -244,7 +246,8 @@ export default function ShowInvoices() {
 
   return (
     <div className="m-3">
-      <CustomPageTitle title="Show All Invoices" />
+      <CustomPageTitle title={t('showinvoices')} />
+
       <div className="card flex justify-content-center">
         <Sidebar
           visible={visibleRight}
@@ -281,7 +284,7 @@ export default function ShowInvoices() {
             </div>
 
             <div className="my-2">
-              <h3 className="bg-primary text-center text-white p-3">
+              <h3 className={`text-center p-3 ${theme === 'light' ? 'bg-light-mode text-white':'bg-primary text-black'}`}>
                 {totalPrice.toFixed(2)}
               </h3>
             </div>
@@ -297,7 +300,10 @@ export default function ShowInvoices() {
           <div className="flex item-center justify-between">
             <div className="flex item-center">
               <div className="flex justify-center mx-3">
+            
                 <TableButton title={t("download")} onclick={handleExport} />
+
+
               </div>
               <div className="flex justify-center ">
                 <div className="flex items-center border rounded-full w-fit">
@@ -315,13 +321,13 @@ export default function ShowInvoices() {
                 </div>
               </div>
             </div>
-
+            
             <div className="flex items-center">
               <button
-                className="bg-primary p-2 rounded-full mx-5"
+                className={`p-2 rounded-full mx-5 ${theme === 'light' ? 'bg-light-mode':'bg-primary'}`}
                 onClick={() => setVisibleRight(true)}
               >
-                <FaArrowLeftLong color="white" />
+                <FaArrowLeftLong color={`${theme === 'light' ? '#ffffff':'#000000'}`} />
               </button>
               <TableSearchBox onchange={handleFilter} />
             </div>

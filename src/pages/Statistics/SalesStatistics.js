@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { Setting } from '../../utilties/Setting';
+import { useTheme } from '../../context/ThemeContext';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
@@ -11,6 +12,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default function SalesStatistics() {
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);
+    const { theme } = useTheme();
 
 
     useEffect(() => {
@@ -23,10 +25,10 @@ export default function SalesStatistics() {
             setChartData({
               labels: labels,
               datasets: [{
-                label: 'Number of Occurrences',
+                label: 'Sales',
                 data: data,
-                backgroundColor: '#eb5e28',
-                borderColor: '#eb5e28',
+                backgroundColor: theme === 'light' ? '#14213d' : '#CCFF00',
+                borderColor: theme === 'light' ? '#14213d' : '#CCFF00',
                 borderWidth: 1,
               }],
             });
@@ -37,10 +39,10 @@ export default function SalesStatistics() {
             console.error('Error fetching data:', error);
             setLoading(false);
           });
-      }, []);
+      }, [theme]);
     
   return (
-    <div>
+    <div className='bg-white'>
     {loading ? (
       <p>Loading...</p>
     ) : (

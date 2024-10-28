@@ -18,6 +18,7 @@ import CustomTableButtonUpload from "../../custom/CustomTableButtonUpload";
 import { ImportExcel } from "../../utilties/ImportExcel";
 import { ExportExcel } from "../../utilties/ExportExcel";
 import CustomLoading from "../../custom/CustomLoading";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Checks() {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ export default function Checks() {
   const [branchName, setBranchName] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {theme}=useTheme();
 
   const handleAddCheck = async () => {
     setLoading(true);
@@ -138,10 +140,10 @@ export default function Checks() {
   return (
     <div className="p-2">
       <CustomPageTitle title={t("checks")} />
-      <div className="bg-white my-3 p-2">
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <CustomSectionTitle title={t("addcheck")} />
         <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
-          <div>
+          <div className="mt-5">
             <CustomDropDownMenu
               value={branchName}
               optionLabel="name"
@@ -176,6 +178,7 @@ export default function Checks() {
               onchange={(e) => setStatment(e.target.value)}
             />
           </div>
+
           <div>
             <CustomInput
               value={number}
@@ -183,6 +186,7 @@ export default function Checks() {
               onchange={(e) => setNumber(e.target.value)}
             />
           </div>
+
           <div>
             <CustomInput
               value={credit}
@@ -190,7 +194,8 @@ export default function Checks() {
               onchange={(e) => setCredit(e.target.value)}
             />
           </div>
-          <div>
+
+          <div className="mt-5">
             <CustomCalender
               value={date}
               onchange={(e) => setDate(e.value)}

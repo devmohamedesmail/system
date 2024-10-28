@@ -101,7 +101,7 @@
   "user": "منع جميع الصلاحيات",
   "sales": "مسئول مبيعات",
   "selectexcel": "اختر ملف الاكسل",
-  "upload": "رفع",
+  "Upload": "رفع",
   "addproblem": "اضف مشكله",
   "step": "المرحله",
   "problem": "المشكله",
@@ -132,5 +132,7 @@
   "error": "حدث خطا ما حاول مره اخري",
   "dashboard": "لوحه التحكم",
   "haveaccount": "انا املك حساب",
-  "problemhappened": "حدثت مشكله حاول مجددا"
+  "problemhappened": "حدثت مشكله حاول مجددا",
+  "Statistics":"الاحصائيات",
+  "setting-staff":"ضبط شئون العاملين"
 }

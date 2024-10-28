@@ -16,6 +16,7 @@ import CustomModal from "../../custom/CustomModal";
 import AddProblem from "./AddProblem";
 import AddStage from "./AddStage";
 import CustomSectionTitle from "../../custom/CustomSectionTitle";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function EditInvoice() {
   const location = useLocation();
@@ -38,6 +39,7 @@ export default function EditInvoice() {
   const [Rdate, setRdate] = useState(invoice.Rdate);
   const [percent, setPercent] = useState(invoice.percent);
   const [paidMethod, setpaidMethod] = useState(invoice.paidMethod);
+  const {theme}=useTheme();
   const [
     invoicesTypes,
     fetchInvoiceTypes,
@@ -93,7 +95,7 @@ export default function EditInvoice() {
     <div className="p-4 ">
       <CustomPageTitle title={t("editinvoice")} />
 
-      <div className="bg-white my-3 p-3">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
         <h2 className="font-bold text-center">{invoice.invoiceNumber}</h2>
         <CustomSectionTitle title={t("invoiceinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -120,7 +122,7 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
         <CustomSectionTitle title={t("clientinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomInput
@@ -141,7 +143,7 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
 
         <CustomSectionTitle  title={t("carinfo")}/>
 
@@ -179,7 +181,7 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
         
         <CustomSectionTitle  title={t("deliveryinfo")} />
 
@@ -207,7 +209,7 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
         
         <CustomSectionTitle title={t("paidstatus")} />
 

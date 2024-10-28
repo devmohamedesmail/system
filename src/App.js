@@ -29,6 +29,7 @@ import EditUser from "./pages/Users/EditUser";
 import Cars from "./pages/Cars/Cars";
 import Setting from "./pages/Setting/Setting";
 import CarsStage from "./pages/Cars/CarsStage";
+import Statistics from "./pages/Statistics/Statistics";
 
 function App() {
   const { i18n } = useTranslation();
@@ -46,13 +47,12 @@ function App() {
                   
                   <Route index path="/" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  {/* <Route path="/home" element={<Home />} /> */}
                   <Route path="/dashboard" element={<DashboardLayout />}>
                     <Route path="home" element={<Home />} />
+                    <Route path="statistics" element={<Statistics />} />
                     <Route path="create/new/invoice" element={<AddInvoice />} />
-                    <Route
-                      path="show/all/invoices"
-                      element={<ShowInvoices />}
-                    />
+                    <Route path="show/all/invoices" element={<ShowInvoices />}/>
                     <Route path="invoices/problems" element={<Problems/>} />
                     {/* branches */}
                     <Route path="branches" element={<Branches />} />

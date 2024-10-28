@@ -8,7 +8,7 @@ export default function CustomLoading() {
         visible={true}
         height="40"
         width="40"
-        color="#eb5e28"
+        color="#CCFF00"
         ariaLabel="three-circles-loading"
         wrapperStyle={{}}
         wrapperClass=""

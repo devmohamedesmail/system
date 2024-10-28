@@ -5,17 +5,14 @@ import { CiSearch } from "react-icons/ci";
 export default function TableSearchBox({ onchange }) {
   const { t } = useTranslation();
   return (
-    <div className="flex justify-center items-start border-2 rounded-xl overflow-hidden p-1">
-      <div>
-        <input
-          className="focus:outline-none w-full px-3 text-gray-70"
-          placeholder={t("search")}
-          onChange={onchange}
-        />
-      </div>
-      <div className=" mt-1">
-        <CiSearch />
-      </div>
-    </div>
+    
+      <input
+        className="border-2 border-slate-400 w-60 px-3 text-gray-70 h-10"
+        placeholder={t("search")}
+        onChange={onchange}
+      />
+
+      
+    
   );
 }

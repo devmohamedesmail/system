@@ -9,6 +9,7 @@ import CustomButton from "../../custom/CustomButton";
 import axios from "axios";
 import { Setting } from "../../utilties/Setting";
 import CustomLoading from "../../custom/CustomLoading";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AddStage({ invoice }) {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ export default function AddStage({ invoice }) {
   const [start, setStart] = useState();
   const [end, setEnd] = useState();
   const [loading,setLoading]=useState(false)
+  const { theme } = useTheme();
 
   const selectedCountryTemplate = (option, props) => {
     if (option) {
@@ -57,11 +59,11 @@ export default function AddStage({ invoice }) {
     }
   };
   return (
-    <div className="my-3 bg-white p-2">
+    <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
       <CustomSectionTitle title={t("addstage")} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          {" "}
+         
           <CustomInput
             value={name}
             onchange={(e) => setName(e.target.value)}
@@ -70,7 +72,7 @@ export default function AddStage({ invoice }) {
         </div>
         <div>
           <div
-            className={`border ${
+            className={`border mt-5 ${
               isFocused ? "border-primary" : "border-black"
             } rounded`}
           >

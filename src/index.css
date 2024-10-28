@@ -19,21 +19,12 @@
   font-family: "Cairo", sans-serif;
 }
 
-.input-form:focus + .input-label {
-  top: -5px;
-  border: 1px solid var(--main-color);
-  background-color: white;
-  padding: 2px 8px 2px 8px;
-  border-radius: 5px;
-  animation-name: input-animation;
-  animation-duration: 1s;
+input{
+  background-color: transparent !important;
 }
+/* input:focus{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+} */
 
-@keyframes input-animation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

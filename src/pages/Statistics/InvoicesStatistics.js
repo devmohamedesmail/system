@@ -2,14 +2,15 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
-import CustomPageTitle from '../../custom/CustomPageTitle';
 import { Setting } from '../../utilties/Setting';
+import { useTheme } from '../../context/ThemeContext';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 export default function InvoicesStatistics() {
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);
+    const { theme } = useTheme();
 
 
     useEffect(() => {
@@ -25,8 +26,8 @@ export default function InvoicesStatistics() {
               datasets: [{
                 label: 'Number of Invoices',
                 data: data,
-                backgroundColor: '#eb5e28',
-                borderColor: '#eb5e28',
+                backgroundColor: theme === 'light' ? '#14213d' : '#CCFF00',
+                borderColor: theme === 'light' ? '#14213d' : '#CCFF00',
                 borderWidth: 1,
               }],
             });
@@ -37,7 +38,7 @@ export default function InvoicesStatistics() {
             console.error('Error fetching data:', error);
             setLoading(false);
           });
-      }, []);
+      }, [theme]);
   return (
     <div className='bg-white'>
     {loading ? (

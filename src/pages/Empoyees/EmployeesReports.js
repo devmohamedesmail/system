@@ -14,6 +14,7 @@ import { MdDelete } from "react-icons/md";
 import CustomCalender from "../../custom/CustomCalender";
 import CustomLoading from "../../custom/CustomLoading";
 import TableSearchBox from "../../components/TableSearchBox/TableSearchBox";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function EmployeesReports() {
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ export default function EmployeesReports() {
   const [reports, setReports] = useState();
   const [date, setDate] = useState();
   const [records, setrecords] = useState();
+  const { theme } = useTheme();
 
   const columns = [
     {
@@ -136,9 +138,9 @@ export default function EmployeesReports() {
 
 
   return (
-    <div className="p-2">
+    <div className="">
       <CustomPageTitle title={t("reports")} />
-      <div className="bg-white py-3 px-2 my-3">
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <CustomSectionTitle title={t("addreports")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

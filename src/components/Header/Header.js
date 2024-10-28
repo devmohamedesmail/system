@@ -8,6 +8,8 @@ import axios from "axios";
 import { Setting } from "../../utilties/Setting"
 import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import SwitchMode from "../SwitchMode/SwitchMode";
+import { useTheme } from "../../context/ThemeContext";
 
 
 
@@ -17,6 +19,7 @@ export default function Header() {
   const { t, i18n } = useTranslation();
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
 
 
@@ -48,22 +51,23 @@ export default function Header() {
   }
 
   return (
-    <div className={`bg-white flex items-center justify-between py-4 px-10 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+    <div className={`flex items-center justify-between py-4 px-10 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
       <div>
-        <button className="bg-light p-2 rounded-full shadow-lg" onClick={() => handleToggleSidebar()}>
-          <HiMiniBars4 size={25} color="primary" className="text-primary" />
+        <button className=" p-2" onClick={() => handleToggleSidebar()}>
+          <HiMiniBars4 size={25} color="primary" className={` ${theme === 'dark' ? 'text-primary' : 'text-black'} `} />
         </button>
       </div>
 
 
 
       <div className={`flex items-center ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+        <SwitchMode />
         <LanguageSwitch />
 
         <div className="relative">
-          <button className="flex items-center" onClick={() => handleToggleMenu()}>
-            <img src="/images/icons/user.png" width={30} alt="user profile" />
-            <FiChevronDown />
+          <button className="flex items-center border-2 border-white rounded-full p-1" onClick={() => handleToggleMenu()}>
+            <img src="/images/icons/profile.png" width={40} alt="user profile" />
+            {/* <FiChevronDown /> */}
           </button>
           <div className={`flex flex-col absolute top-10 bg-white w-28 right-3 transition-max-height ease-in-out duration-1000 overflow-hidden ${openDropMenu ? 'max-h-40' : 'max-h-0 overflow-hidden'} `}>
 

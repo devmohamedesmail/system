@@ -10,6 +10,7 @@ import { DataContext } from "../../context/DataProvider";
 import CustomLoading from "../../custom/CustomLoading";
 import CustomModal from "../../custom/CustomModal";
 import CustomTextArea from "../../custom/CustomTextArea";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AddEmployeeSection() {
   const { t } = useTranslation();
@@ -23,13 +24,14 @@ export default function AddEmployeeSection() {
   const [salary, setSalary] = useState();
   const [discount, setDiscount] = useState();
   const [advance, setAdvance] = useState();
-  const [comments,setComments]=useState();
-  const [errorDepartment,setErrorDepartment]=useState(false);
+  const [comments, setComments] = useState();
+  const [errorDepartment, setErrorDepartment] = useState(false);
+  const { theme } = useTheme();
 
   const handleAddStaff = async () => {
-    if(department === null){
-        setErrorDepartment(true);
-        return;
+    if (department === null) {
+      setErrorDepartment(true);
+      return;
     }
     setLoading(true);
     try {
@@ -50,7 +52,7 @@ export default function AddEmployeeSection() {
       setAdvance("");
       setComments("");
       setPosition("top-right");
-      
+
     } catch (error) {
       alert(error);
       setLoading(false);
@@ -59,10 +61,10 @@ export default function AddEmployeeSection() {
     }
   };
   return (
-    <div className="bg-white p-4">
+    <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
       <CustomSectionTitle title={t("addnewstaff")} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
+        <div className="mt-5">
           <CustomDropDownMenu
             value={departmentName}
             onchange={(e) => {
@@ -73,7 +75,7 @@ export default function AddEmployeeSection() {
             optionLabel="name"
             placeholder={t("department")}
           />
-          {errorDepartment?(<p className="text-red-600">{t('required')}</p>):(<></>)}
+          {errorDepartment ? (<p className="text-red-600">{t('required')}</p>) : (<></>)}
         </div>
 
         <div>
@@ -105,7 +107,7 @@ export default function AddEmployeeSection() {
           />
         </div>
         <div>
-          <CustomTextArea value={comments} placeholder={t('comments')} onchange={(e)=>setComments(e.target.value)} />
+          <CustomTextArea value={comments} placeholder={t('comments')} onchange={(e) => setComments(e.target.value)} />
         </div>
       </div>
 

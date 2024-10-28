@@ -10,6 +10,7 @@ import { Setting } from "../../utilties/Setting";
 import CustomSectionTitle from "../../custom/CustomSectionTitle";
 import CustomLoading from "../../custom/CustomLoading";
 import CustomModal from "../../custom/CustomModal";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Branches() {
   const [name, setName] = useState("");
@@ -21,6 +22,8 @@ export default function Branches() {
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState("center");
+  const { theme } = useTheme();
+  
 
   const handleAddBranch = async () => {
     if (!name.trim()) {
@@ -59,7 +62,7 @@ export default function Branches() {
   return (
     <div className="p-2 ">
       <CustomPageTitle title={t("branches")} />
-      <div className="bg-white p-2 my-3">
+      <div className={` ${theme === "light" ? "bg-white" : "bg-black"} p-5 my-3`}>
         <CustomSectionTitle title={t("addnewbranch")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

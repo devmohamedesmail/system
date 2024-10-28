@@ -15,6 +15,8 @@ import CustomModal from "../../custom/CustomModal";
 import { AuthContext } from "../../context/AuthProvider";
 import CustomCalender from "../../custom/CustomCalender";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+import CustomSectionTitle from "../../custom/CustomSectionTitle";
 
 export default function AddInvoice() {
   const { t, i18n } = useTranslation();
@@ -35,6 +37,7 @@ export default function AddInvoice() {
   const [Rdate, setRdate] = useState("");
   const [percent, setPercent] = useState("");
   const [paidMethod, setpaidMethod] = useState(null);
+  const {theme}=useTheme();
   const [
     invoicesTypes,
     fetchInvoiceTypes,
@@ -111,25 +114,24 @@ export default function AddInvoice() {
   return (
     <div className="p-4 ">
       <CustomPageTitle title={t("addinvoice")} />
+
       <div
-        className={`my-2 flex bg-white p-2 ${i18n.language === "ar" ? "justify-end" : ""}`}
+        className={`my-2 flex  p-2 ${theme==='light'? 'bg-white':'bg-black'} ${i18n.language === "ar" ? "justify-end" : ""}`}
       >
         <Link
           to="/dashboard/show/all/invoices"
-          className="bg-primary p-2 rounded-full text-white text-xs"
+          className={` px-5 py-2 font-bold rounded-full text-xs ${theme==='light'? 'bg-light-mode text-white':'bg-primary text-black'}`}
         >
           {t("showinvoices")}
         </Link>
       </div>
 
-      <div className="bg-white my-3 p-3">
-        <h2
-          className={`font-semibold  px-3 block my-3 ${
-            i18n.language === "ar" ? "text-right" : ""
-          } `}
-        >
-          {t("invoiceinfo")}
-        </h2>
+
+
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+    
+        <CustomSectionTitle title={t("invoiceinfo")} />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <CustomDropDownMenu
@@ -154,14 +156,9 @@ export default function AddInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
-        <h2
-          className={`font-semibold  px-3 block my-3 ${
-            i18n.language === "ar" ? "text-right" : ""
-          } `}
-        >
-          {t("clientinfo")}
-        </h2>
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+       
+        <CustomSectionTitle title={t("clientinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomInput
             placeholder={t("name")}
@@ -180,14 +177,9 @@ export default function AddInvoice() {
           />
         </div>
       </div>
-      <div className="bg-white my-3 p-3">
-        <h2
-          className={`font-semibold  px-3 block my-3 ${
-            i18n.language === "ar" ? "text-right" : ""
-          } `}
-        >
-          {t("carinfo")}
-        </h2>
+
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+        <CustomSectionTitle title={t("carinfo")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomInput
@@ -223,15 +215,8 @@ export default function AddInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
-        <h2
-          className={`font-semibold  px-3 block my-3 ${
-            i18n.language === "ar" ? "text-right" : ""
-          } `}
-        >
-          {t("deliveryinfo")}
-        </h2>
-
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+        <CustomSectionTitle title={t("deliveryinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomCalender
             value={Ddate}
@@ -253,14 +238,8 @@ export default function AddInvoice() {
         </div>
       </div>
 
-      <div className="bg-white my-3 p-3">
-        <h2
-          className={`font-semibold  px-3 block my-3 ${
-            i18n.language === "ar" ? "text-right" : ""
-          } `}
-        >
-          {t("paidstatus")}
-        </h2>
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+        <CustomSectionTitle title={t("paidstatus")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomDropDownMenu
@@ -273,7 +252,7 @@ export default function AddInvoice() {
         </div>
       </div>
 
-      <div className=" my-3 p-3 bg-white">
+      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
         {loading ? (
           <CustomLoading />
         ) : (

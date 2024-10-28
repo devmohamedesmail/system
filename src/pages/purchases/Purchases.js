@@ -6,10 +6,12 @@ import PurchasesTable from "../../components/purchasesComponents/PurchasesTable"
 import AddPurchases from "./AddPurchases";
 import axios from "axios";
 import { Setting } from "../../utilties/Setting";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Purchases() {
   const { t } = useTranslation();
   const [purchases, setPurchases] = useState();
+  const { theme } = useTheme();
 
   const fetchpurchases = async () => {
     try {
@@ -26,7 +28,7 @@ export default function Purchases() {
   return (
     <div className="p-2">
       <CustomPageTitle title={t("purchases")} />
-      <div className="bg-white my-3 p-2">
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <CustomSectionTitle title={t("addpurchases")} />
 
         <AddPurchases fetchpurchases={fetchpurchases} />

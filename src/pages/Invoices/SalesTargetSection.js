@@ -2,8 +2,7 @@ import React,{useContext,useEffect,useState} from 'react'
 import CustomSelectOption from '../../custom/CustomSelectOption'
 import { DataContext } from '../../context/DataProvider';
 import { useTranslation } from 'react-i18next';
-import { Setting } from '../../utilties/Setting';
-import axios from 'axios';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function SalesTargetSection({users}) {
     const [
@@ -22,24 +21,14 @@ export default function SalesTargetSection({users}) {
 
       const [salesStaff, setsalesStaff] = useState();
       const [sales,setSales]=useState();
-    //   const [users,setUsers]=useState([]);
       const [selectedStaff, setSelectedStaff] = useState(null);
       const [salesTarget, setSalesTarget] = useState(0);
       const [methodType, setMethodType] = useState("");
       const {t}=useTranslation()
+      const {theme}=useTheme()
 
 
 
-
-    //   const fetchusers = async () => {
-    //    try {
-    //     const response = await axios.get(`${Setting.url}show/users`);
-    //     setUsers(response.data.data);
-    
-    //    } catch (error) {
-    //     console.log(error)
-    //    }
-    //   };
     
 
 
@@ -57,7 +46,7 @@ export default function SalesTargetSection({users}) {
 
       useEffect(()=>{
         filterSalesStaff()
-        // fetchusers();
+    
       },[])
 
 
@@ -125,7 +114,7 @@ export default function SalesTargetSection({users}) {
                 <></>
               )}
             </div>
-            <h3 className="bg-primary text-center text-white p-3">{salesTarget}</h3>
+            <h3 className={`text-center p-3 ${theme === 'light' ? 'bg-light-mode text-white':'bg-primary text-black'}`}>{salesTarget}</h3>
     </div>
   )
 }

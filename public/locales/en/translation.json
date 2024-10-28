@@ -132,5 +132,7 @@
   "error": "There is Error Happened Try Again",
   "dashboard":"Dashboard",
   "haveaccount":"I Have Account ?",
-  "problemhappened":"A Problem Happened"
+  "problemhappened":"A Problem Happened",
+  "Statistics":"Statistics",
+  "setting-staff":"Setting Staff"
 }

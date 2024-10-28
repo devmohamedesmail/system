@@ -10,6 +10,7 @@ import CustomModal from "../../custom/CustomModal";
 import { Dropdown } from "primereact/dropdown";
 import { DataContext } from "../../context/DataProvider";
 import CustomLoading from "../../custom/CustomLoading";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AddProblem({ invoice }) {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ export default function AddProblem({ invoice }) {
   const [, , , , , , , , staff, fetchStaff] = useContext(DataContext);
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {theme}=useTheme();
 
   useEffect(() => {
     if (auth && auth.user) {
@@ -81,7 +83,7 @@ export default function AddProblem({ invoice }) {
   };
 
   return (
-    <div className="my-3 bg-white p-3">
+    <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
       <CustomSectionTitle title={t("addproblem")} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
