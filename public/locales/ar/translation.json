@@ -133,6 +133,13 @@
   "dashboard": "لوحه التحكم",
   "haveaccount": "انا املك حساب",
   "problemhappened": "حدثت مشكله حاول مجددا",
-  "Statistics":"الاحصائيات",
-  "setting-staff":"ضبط شئون العاملين"
+  "Statistics": "الاحصائيات",
+  "setting-staff": "ضبط شئون العاملين",
+  "jobcards": "بطاقات الوظائف",
+  "add-job-card": "اضافه بطاقة وظيفه جديده",
+  "select-car-no": "حدد رقم السياره",
+  "job-card-name": "اسم كارت الوظيفه",
+  "remaining": "متبقي",
+  "completed":"تم الانتهاء",
+  "delete":"حذف"
 }

@@ -16,7 +16,7 @@ export default function Branches() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { branches, fetchBranches } = useContext(BranchesContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

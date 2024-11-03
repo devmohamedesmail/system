@@ -4,6 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Setting } from '../../utilties/Setting';
 import { useTheme } from '../../context/ThemeContext';
+import CustomLoading from '../../custom/CustomLoading';
 
 
 
@@ -26,12 +27,7 @@ export default function AddressStatistics() {
                     datasets: [{
                         label: 'Statistics of Address',
                         data: data,
-                        backgroundColor: [
-                            theme === 'light' ? '#FF6384' : '#FF6384',
-                            theme === 'light' ? '#36A2EB' : '#36A2EB',
-                            theme === 'light' ? '#FFCE56' : '#FFCE56',
-                            // Add more colors if needed
-                        ],
+                        backgroundColor: ['#4c0054','#873e23' , '#d24608'],
                     }],
                 });
 
@@ -46,7 +42,7 @@ export default function AddressStatistics() {
     return (
         <div className='bg-white'>
             {loading ? (
-                <p>Loading...</p>
+               <CustomLoading />
             ) : (
                 <Pie
                     data={chartData}

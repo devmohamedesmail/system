@@ -47,12 +47,11 @@ export default function Register() {
 
           <div className="mb-10 flex items-center">
             <LanguageSwitch />
-            <SwitchMode />
           </div>
 
           <div className="mb-3">
             <CustomInput
-              type="text"
+              type="email"
               placeholder={t("email")}
               onchange={(e) => setEmail(e.target.value)}
             />

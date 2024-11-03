@@ -1,8 +1,7 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+
 
 export default function CustomSelect({ value, onchange, title,data, key = "id",itemtitle = "itemTitle",itemvalue = "itemValue" }) {
-  const { t } = useTranslation();
   return (
     <div className="mx-3 flex justify-center w-full">
       <select

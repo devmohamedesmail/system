@@ -23,7 +23,7 @@ export default function PurchasesTable({ fetchpurchases, purchases }) {
   const [branchItem, setBranchITem] = useState();
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [departmentITem, setDepartmentITem] = useState("")
-  const { branches, fetchBranches } = useContext(BranchesContext);
+  const { branches,  } = useContext(BranchesContext);
   const [, , , , , , departments, ,] = useContext(DataContext);
   const [records,setrecords]=useState()
 

@@ -121,7 +121,7 @@ export default function PaperInvoice({ data, notes }) {
         {notes && notes.length > 0 ? (
           <>
             {notes.map((note, index) => (
-              <p className="text-right text-xs" style={{ direction: "rtl" }}>
+              <p className="text-right text-xs" style={{ direction: "rtl",fontSize:10, }}>
                 {index + 1} - {note.notear}
               </p>
             ))}

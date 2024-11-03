@@ -14,14 +14,14 @@ import { BranchesContext } from "../../context/BranchesProvider";
 export default function BranchTable() {
   const [visible, setVisible] = useState(false);
   const [branchItem, setBranchItem] = useState(null);
-  const {branches , fetchBranches}= useContext(BranchesContext)
+  const { branches, fetchBranches } = useContext(BranchesContext)
 
   const hideDialog = () => {
     setVisible(false);
   };
 
 
- 
+
   // Handle edit action
   const handleEdit = (branch) => {
     setVisible(true);
@@ -33,10 +33,10 @@ export default function BranchTable() {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
     if (userConfirmed) {
       try {
-        
+
         await axios.delete(`https://naqraa.net/api/delete/branch/${branch.id}`);
         fetchBranches();
-        
+
       } catch (error) {
         alert(t("errorhappened"))
         console.log(error)
@@ -58,53 +58,10 @@ export default function BranchTable() {
     setVisible(false);
   };
 
-  // datatables
-  const columns = [
-    {
-      name: t("name"),
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: t("address"),
-      selector: (row) => row.address,
-      sortable: true,
-    },
-    {
-      name: t("phone"),
-      selector: (row) => row.phone,
-      sortable: true,
-    },
-    {
-      name: t("action"),
-      cell: (row) => (
-        <div className="flex items-center">
-          <CustomActionButton
-            onpress={() => handleEdit(row)}
-            icon={<MdEdit size={20} color="green" />}
-          />
-          <CustomActionButton
-            onpress={() => handleDelete(row)}
-            icon={<MdDelete size={20} color="red" />}
-          />
-        </div>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-    },
-  ];
+ 
 
   return (
     <div>
-      <DataTable
-        columns={columns}
-        data={branches}
-        selectableRows
-        fixedHeader
-        pagination
-      />
-
       <Dialog
         header={t("editbranch")}
         visible={visible}
@@ -137,6 +94,46 @@ export default function BranchTable() {
           onpress={() => handleUpdateBranch(branchItem.id)}
         />
       </Dialog>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {branches && branches.length > 0 ? (
+          <>
+            {branches.map((branch) => (
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <div>
+                  <h2 className="text-xl font-bold mb-2 bg-primary text-white p-2 ">{branch.name}</h2>
+                  <h2 className="text-sm mb-2">{branch.address}</h2>
+                  <h2 className="text-sm  mb-2">{branch.phone}</h2>
+                </div>
+                <hr />
+                <div className="flex items-center justify-between">
+                  <p>{t('invoices')}</p>
+                  <p>{branch.invoices.length}</p>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <p>{t('checks')}</p>
+                  <p>{branch.checks.length}</p>
+
+                </div>
+                <hr />
+                <div className="flex items-center mt-3">
+                  <CustomActionButton
+                    onpress={() => handleEdit(branch)}
+                    icon={<MdEdit size={20} color="green" />}
+                  />
+                  <CustomActionButton
+                    onpress={() => handleDelete(branch)}
+                    icon={<MdDelete size={20} color="red" />}
+                  />
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (<></>)}
+
+
+
+      </div>
     </div>
   );
 }

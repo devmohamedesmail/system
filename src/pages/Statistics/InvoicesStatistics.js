@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { Setting } from '../../utilties/Setting';
 import { useTheme } from '../../context/ThemeContext';
+import CustomLoading from '../../custom/CustomLoading';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
@@ -26,8 +27,8 @@ export default function InvoicesStatistics() {
           datasets: [{
             label: 'Number of Invoices',
             data: data,
-            backgroundColor: theme === 'light' ? '#14213d' : '#CCFF00',
-            borderColor: theme === 'light' ? '#14213d' : '#CCFF00',
+            backgroundColor: theme === 'light' ? '#4c0054' : '#CCFF00',
+            borderColor: theme === 'light' ? '#4c0054' : '#CCFF00',
             borderWidth: 1,
           }],
         });
@@ -42,7 +43,7 @@ export default function InvoicesStatistics() {
   return (
     <div className='bg-white'>
       {loading ? (
-        <p>Loading...</p>
+        <CustomLoading />
       ) : (
         <Bar
           data={chartData}

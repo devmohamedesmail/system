@@ -25,6 +25,11 @@ import { Sidebar } from "primereact/sidebar";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import SalesTargetSection from "./SalesTargetSection";
 import { useTheme } from "../../context/ThemeContext";
+import { MdPerson } from "react-icons/md";
+import { FaMobileAlt } from "react-icons/fa";
+import { FaAddressBook } from "react-icons/fa";
+import { MdList, MdTableChart } from 'react-icons/md';
+
 
 export default function ShowInvoices() {
   const [
@@ -54,7 +59,8 @@ export default function ShowInvoices() {
   const [methodType, setMethodType] = useState("");
   const [visibleRight, setVisibleRight] = useState(false);
   const [users, setUsers] = useState([]);
-  const {theme}=useTheme();
+  const { theme } = useTheme();
+  const [isListView, setIsListView] = useState(true);
 
   useEffect(() => {
     setrecords(invoices);
@@ -135,12 +141,12 @@ export default function ShowInvoices() {
     printWindow.print();
   };
 
-  const handleDelete = async (row) => {
+  const handleDelete = async (record) => {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
     if (userConfirmed) {
       try {
         setLoading(true);
-        await axios.delete(`${Setting.url}delete/invoice/${row.id}`);
+        await axios.delete(`${Setting.url}delete/invoice/${record.id}`);
         fetchInvoices();
         setLoading(false);
       } catch (error) {
@@ -227,7 +233,7 @@ export default function ShowInvoices() {
     try {
       const response = await axios.get(`${Setting.url}show/notes`);
       setNotes(response.data.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -242,6 +248,10 @@ export default function ShowInvoices() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const toggleView = () => {
+    setIsListView(!isListView);
   };
 
   return (
@@ -284,7 +294,7 @@ export default function ShowInvoices() {
             </div>
 
             <div className="my-2">
-              <h3 className={`text-center p-3 ${theme === 'light' ? 'bg-light-mode text-white':'bg-primary text-black'}`}>
+              <h3 className={`text-center p-3 ${theme === 'light' ? 'bg-light-mode text-white' : 'bg-primary text-black'}`}>
                 {totalPrice.toFixed(2)}
               </h3>
             </div>
@@ -300,7 +310,7 @@ export default function ShowInvoices() {
           <div className="flex item-center justify-between">
             <div className="flex item-center">
               <div className="flex justify-center mx-3">
-            
+
                 <TableButton title={t("download")} onclick={handleExport} />
 
 
@@ -321,20 +331,83 @@ export default function ShowInvoices() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center">
               <button
-                className={`p-2 rounded-full mx-5 ${theme === 'light' ? 'bg-light-mode':'bg-primary'}`}
+                className={`p-2 rounded-full mx-5 ${theme === 'light' ? 'bg-light-mode' : 'bg-primary'}`}
                 onClick={() => setVisibleRight(true)}
               >
-                <FaArrowLeftLong color={`${theme === 'light' ? '#ffffff':'#000000'}`} />
+                <FaArrowLeftLong color={`${theme === 'light' ? '#ffffff' : '#000000'}`} />
               </button>
               <TableSearchBox onchange={handleFilter} />
             </div>
           </div>
         </div>
 
-        {records ? (
+
+
+
+
+
+
+
+        <div>
+      <div className="flex items-center justify-between mb-4">
+        
+        <div></div>
+        <label className="flex items-center cursor-pointer">
+      
+          <input type="checkbox" checked={isListView} onChange={toggleView} className="toggle-checkbox hidden" />
+           <span className="toggle-label bg-gray-300 w-14 h-8 rounded-full shadow-inner flex items-center justify-center">
+               {isListView ? <MdList size={24} /> : <MdTableChart size={24} />}
+           </span>
+          <span className={`toggle-dot absolute w-6 h-6 bg-white rounded-full shadow -top-1 -left-1 transition ${isListView ? 'translate-x-0' : 'translate-x-6'}`}></span>
+        </label>
+      </div>
+
+      {records ? (
+        isListView ? (
+          records.map((record) => (
+            <div key={record.id} className="bg-white rounded-md shadow p-3 my-3 flex items-center justify-between">
+              <div className="flex items-center">
+                <div>
+                  <img src="/images/icons/truck.png" width='80px' />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm">{record.carNo}</h3>
+                  <h3 className="font-semibold text-sm">{record.carType}</h3>
+                  <h3 className="font-semibold text-sm">{record.carService}</h3>
+                  <h3 className="font-semibold text-sm">{record.price}</h3>
+                  <h3 className="font-semibold text-sm">{record.percent}</h3>
+                </div>
+                <div className="mx-10">
+                  <h3 className="flex items-center"><MdPerson /> - {record.name}</h3>
+                  <h3 className="flex items-center"><FaMobileAlt /> - {record.phone}</h3>
+                  <h3 className="flex items-center"><FaAddressBook /> - {record.address}</h3>
+                </div>
+              </div>
+              <div className="flex items-center flex-col">
+                <div className="flex items-center">
+                  <CustomActionButton
+                    onpress={() => navigate("/dashboard/invoice/edit", { state: { invoice: record } })}
+                    icon={<MdEdit size={20} color="green" />}
+                  />
+                  <CustomActionButton
+                    onpress={() => handleDelete(record)}
+                    icon={<MdDelete size={20} color="red" />}
+                  />
+                  <CustomActionButton
+                    onpress={() => printInvoice(record)}
+                    icon={<IoIosPrint size={20} color="green" />}
+                  />
+                </div>
+                <h3>{record.Rdate}</h3>
+                <h3>{record.Ddate}</h3>
+                <h3>{record.sales}</h3>
+              </div>
+            </div>
+          ))
+        ) : (
           <div className="my-3 px-3 bg-white">
             <DataTable
               columns={columns}
@@ -344,9 +417,21 @@ export default function ShowInvoices() {
               selectableRows
             />
           </div>
-        ) : (
-          <CustomLoading />
-        )}
+        )
+      ) : (
+        <CustomLoading />
+      )}
+    </div>
+
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   );

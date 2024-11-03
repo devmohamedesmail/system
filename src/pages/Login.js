@@ -37,7 +37,7 @@ export default function Login() {
         navigate("/");
         setError(true);
       } else {
-        navigate("/dashboard/home");
+        navigate("/dashboard/statistics");
       }
       setLoading(false);
     } catch (error) {
@@ -55,7 +55,7 @@ export default function Login() {
 
           <div className="mb-10 flex items-center">
             <LanguageSwitch />
-            <SwitchMode />
+            {/* <SwitchMode /> */}
           </div>
 
 

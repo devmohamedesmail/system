@@ -11,11 +11,11 @@ export default function CustomPageTitle({title}) {
   const navigate=useNavigate();
   const {theme} = useTheme();
   return (
-    <div className={` p-3 flex items-center mb-3 ${theme === 'dark' ? 'bg-primary' : 'bg-light-mode'} }`}>
+    <div className={` p-3 flex items-center mb-3 ${theme === 'dark' ? 'bg-light-mode' : 'bg-light-mode'} }`}>
        <button onClick={() => navigate(-1)} className='bg-white shadow-md rounded-full p-1'>
            <TiArrowLeft size={25} />
         </button>
-        <h4 className={`font-semibold ml-3 ${i18n.language === 'ar' ? 'text-right arabic-font':''}  ${theme === 'light' ? 'text-white' : 'text-black'} `} >{title}</h4>
+        <h4 className={`font-semibold ml-3 ${i18n.language === 'ar' ? 'text-right arabic-font':''}  ${theme === 'light' ? 'text-white' : 'text-white'} `} >{title}</h4>
     </div>
   )
 }

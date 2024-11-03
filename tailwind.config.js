@@ -6,16 +6,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#CCFF00', 
-        secondary: '#002642',
+        primary: '#4c0054', 
+        secondary: '#d8d3e2',
+        // secondary: '#002642',
         light: '#14213d',
         // Light mode colors
         'light-mode': {
-          DEFAULT: '#14213d', // Light mode primary color
+          DEFAULT: '#4c0054', 
         },
         // Dark mode colors
         'dark-mode': {
-          DEFAULT: '#002642', // Dark mode primary color
+          DEFAULT: '#002642', 
         },
         
       },

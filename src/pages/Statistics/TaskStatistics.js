@@ -27,12 +27,7 @@ export default function TaskStatistics() {
                   datasets: [{
                       label: 'Worker Statistics',
                       data: data,
-                      backgroundColor: [
-                          '#FF6384',
-                          '#36A2EB',
-                          '#FFCE56',
-                          // Add more colors as needed
-                      ],
+                      backgroundColor: ['#4c0054','#873e23' , '#d24608'],
                   }],
               });
           } catch (error) {

@@ -24,12 +24,12 @@ import Checks from "./pages/Checks/Checks";
 import { useTranslation } from "react-i18next";
 import Users from "./pages/Users/Users";
 import Problems from "./pages/Invoices/Problems";
-import ProtectedRoute from "./Security/ProtectedRoute";
 import EditUser from "./pages/Users/EditUser";
-import Cars from "./pages/Cars/Cars";
+
 import Setting from "./pages/Setting/Setting";
-import CarsStage from "./pages/Cars/CarsStage";
+
 import Statistics from "./pages/Statistics/Statistics";
+import JobCards from "./pages/JobCards/JobCards";
 
 function App() {
   const { i18n } = useTranslation();
@@ -57,10 +57,7 @@ function App() {
                     {/* branches */}
                     <Route path="branches" element={<Branches />} />
                     {/* invoice setting */}
-                    <Route
-                      path="invoice/setting"
-                      element={<InvoiceSetting />}
-                    />
+                    <Route path="invoice/setting" element={<InvoiceSetting />}  />
                     {/* invoices */}
                     <Route path="invoice/edit" element={<EditInvoice />} />
                     {/* employees */}
@@ -85,11 +82,12 @@ function App() {
                     {/* users */}
                     <Route path="users/page" element={<Users />} />
                     <Route path="edit/user" element={<EditUser />} />
-                    {/* cars */}
-                    <Route path="cars/page" element={<Cars />} />
-                    <Route path="car/stages" element={<CarsStage />} />
+            
                     {/* Setting page */}
                     <Route path="setting/page" element={<Setting />} />
+
+                    {/* job cards */}
+                    <Route path="jobcards/page" element={<JobCards />} />
                   </Route>
                 </Routes>
               </div>
