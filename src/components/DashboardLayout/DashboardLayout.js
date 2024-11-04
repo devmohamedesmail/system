@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import '../../pages/screenStyle.css'
 import './style.css'
 import { useTheme } from "../../context/ThemeContext";
+import Footer from "../Footer/Footer";
 
 export default function DashboardLayout() {
   const { i18n } = useTranslation();
@@ -22,10 +23,11 @@ export default function DashboardLayout() {
         <Header />
     
         <div className="container-fluid px-10">
-          <main className="overflow-y-auto">
+          <main className="">
             <Outlet />
           </main>
         </div>
+       <Footer />
       </div>
     </div>
   );

@@ -352,76 +352,78 @@ export default function ShowInvoices() {
 
 
         <div>
-      <div className="flex items-center justify-between mb-4">
-        
-        <div></div>
-        <label className="flex items-center cursor-pointer">
-      
-          <input type="checkbox" checked={isListView} onChange={toggleView} className="toggle-checkbox hidden" />
-           <span className="toggle-label bg-gray-300 w-14 h-8 rounded-full shadow-inner flex items-center justify-center">
-               {isListView ? <MdList size={24} /> : <MdTableChart size={24} />}
-           </span>
-          <span className={`toggle-dot absolute w-6 h-6 bg-white rounded-full shadow -top-1 -left-1 transition ${isListView ? 'translate-x-0' : 'translate-x-6'}`}></span>
-        </label>
-      </div>
+          <div className="flex items-center justify-between mb-4">
 
-      {records ? (
-        isListView ? (
-          records.map((record) => (
-            <div key={record.id} className="bg-white rounded-md shadow p-3 my-3 flex items-center justify-between">
-              <div className="flex items-center">
-                <div>
-                  <img src="/images/icons/truck.png" width='80px' />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-sm">{record.carNo}</h3>
-                  <h3 className="font-semibold text-sm">{record.carType}</h3>
-                  <h3 className="font-semibold text-sm">{record.carService}</h3>
-                  <h3 className="font-semibold text-sm">{record.price}</h3>
-                  <h3 className="font-semibold text-sm">{record.percent}</h3>
-                </div>
-                <div className="mx-10">
-                  <h3 className="flex items-center"><MdPerson /> - {record.name}</h3>
-                  <h3 className="flex items-center"><FaMobileAlt /> - {record.phone}</h3>
-                  <h3 className="flex items-center"><FaAddressBook /> - {record.address}</h3>
-                </div>
-              </div>
-              <div className="flex items-center flex-col">
-                <div className="flex items-center">
-                  <CustomActionButton
-                    onpress={() => navigate("/dashboard/invoice/edit", { state: { invoice: record } })}
-                    icon={<MdEdit size={20} color="green" />}
-                  />
-                  <CustomActionButton
-                    onpress={() => handleDelete(record)}
-                    icon={<MdDelete size={20} color="red" />}
-                  />
-                  <CustomActionButton
-                    onpress={() => printInvoice(record)}
-                    icon={<IoIosPrint size={20} color="green" />}
-                  />
-                </div>
-                <h3>{record.Rdate}</h3>
-                <h3>{record.Ddate}</h3>
-                <h3>{record.sales}</h3>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="my-3 px-3 bg-white">
-            <DataTable
-              columns={columns}
-              data={records}
-              pagination
-              fixedHeader
-              selectableRows
-            />
+            <div></div>
+            <label className="flex items-center cursor-pointer">
+
+              <input type="checkbox" checked={isListView} onChange={toggleView} className="toggle-checkbox hidden" />
+              <span className="toggle-label bg-gray-300 w-14 h-8 rounded-full shadow-inner flex items-center justify-center">
+                {isListView ? <MdList size={24} /> : <MdTableChart size={24} />}
+              </span>
+              <span className={`toggle-dot absolute w-6 h-6 bg-white rounded-full shadow -top-1 -left-1 transition ${isListView ? 'translate-x-0' : 'translate-x-6'}`}></span>
+            </label>
           </div>
-        )
-      ) : (
-        <CustomLoading />
-      )}
-    </div>
+
+          {records ? (
+            isListView ? (
+              records.map((record) => (
+                <div key={record.id} className="bg-white rounded-md shadow p-3 my-3 flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div>
+                      <img src="/images/icons/truck.png" width='70px' />
+                    </div>
+                    <div className="w-44">
+                      <h3 className="font-bold text-md text-primary">{record.carNo}</h3>
+                      <h3 className="font-normal text-xs">{record.carType}</h3>
+                      <h3 className="font-normal text-xs">{record.carService}</h3>
+                      <h3 className="font-semibold text-md text-primary">{record.price}</h3>
+                      <h3 className="font-normal text-xs">{record.percent}</h3>
+                    </div>
+                    <div className="mx-10">
+                      <h3 className="flex items-center"><MdPerson /> - {record.name}</h3>
+                      <h3 className="flex items-center"><FaMobileAlt /> - {record.phone}</h3>
+                      <h3 className="flex items-center"><FaAddressBook /> - {record.address}</h3>
+                    </div>
+                  </div>
+                  <div className="flex items-center flex-col">
+                    <div className="flex items-center">
+                      <CustomActionButton
+                        onpress={() => navigate("/dashboard/invoice/edit", { state: { invoice: record } })}
+                        icon={<MdEdit size={20} color="green" />}
+                      />
+                      <CustomActionButton
+                        onpress={() => handleDelete(record)}
+                        icon={<MdDelete size={20} color="red" />}
+                      />
+                      <CustomActionButton
+                        onpress={() => printInvoice(record)}
+                        icon={<IoIosPrint size={20} color="green" />}
+                      />
+                    </div>
+                    <div className="my-1 flex flex-col justify-center items-center">
+                      <h3>{record.Rdate}</h3>
+                      <h3>{record.Ddate}</h3>
+                      <h3 className="text-primary">{record.sales}</h3>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="my-3 px-3 bg-white">
+                <DataTable
+                  columns={columns}
+                  data={records}
+                  pagination
+                  fixedHeader
+                  selectableRows
+                />
+              </div>
+            )
+          ) : (
+            <CustomLoading />
+          )}
+        </div>
 
 
 

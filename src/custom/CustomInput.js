@@ -15,7 +15,7 @@ export default function CustomInput({ type, placeholder, value, onchange, id }) 
   return (
 
     <div>
-      <label className={`block text-xs font-bold mb-1  ${i18n.language === 'ar' ? 'text-right arabic-font' : ''}`}>{placeholder} </label>
+      <label className={`block text-xs font-bold mb-1 mx-1  ${i18n.language === 'ar' ? 'text-right arabic-font' : ''}`}>{placeholder} </label>
       <div className='relative'>
         <input
           id={uniqueId}

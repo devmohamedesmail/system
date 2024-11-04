@@ -140,6 +140,10 @@
   "select-car-no": "حدد رقم السياره",
   "job-card-name": "اسم كارت الوظيفه",
   "remaining": "متبقي",
-  "completed":"تم الانتهاء",
-  "delete":"حذف"
+  "completed": "تم الانتهاء",
+  "delete": "حذف",
+  "done": "تم الانتهاء",
+  "inprogress": "جاري العمل عليها",
+  "from": "من",
+  "to": "الي"
 }

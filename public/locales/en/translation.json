@@ -3,7 +3,7 @@
   "createnewinvoice": "Create Invoice",
   "showinvoices": "Show Invoices",
   "branches": "Branches",
-  "name": "name",
+  "name": "Name",
   "address": "Address",
   "phone": "Phone",
   "addnewbranch": "Add New Branch",
@@ -141,5 +141,9 @@
   "job-card-name": "Job Card Name",
   "remaining": "Remaining",
   "completed":"Completed",
-  "delete":"Delete"
+  "delete":"Delete",
+  "done":"Done",
+  "inprogress":"In Progress",
+  "from": "From",
+  "to": "To"
 }

@@ -131,11 +131,9 @@ export default function JobCards() {
 
       <div className='bg-white py-1 px-2 flex justify-between items-center '>
         <div className="flex items-center">
-          <input type="datetime-local" className="border-2 border-primary p-2 mx-1" placeholder={t('startdate')} value={startDate}
-            onChange={e => setStartDate(e.target.value)} />
-          <input type="datetime-local" className="border-2 border-primary p-2 mx-1" placeholder={t('startdate')} value={endDate}
-            onChange={e => setEndDate(e.target.value)} />
-          <button onClick={handleFilter} className="bg-primary w-12 h-12 rounded-md flex justify-center items-center mx-1"><IoMdSearch color="white" size={25} /></button>
+            <CustomCalender value={startDate} onchange={e => setStartDate(e.target.value)} placeholder={t('from')}  />
+            <CustomCalender value={endDate} onchange={e => setEndDate(e.target.value)} placeholder={t('to')}  />
+            <button onClick={handleFilter} className="bg-primary w-12 h-12 mt-5 rounded-md flex justify-center items-center mx-1"><IoMdSearch color="white" size={25} /></button>
         </div>
         <div className='flex items-center'>
           <div className='flex flex-col justify-center items-center bg-red-300 w-fit p-2 rounded-md m-3'>
@@ -183,8 +181,7 @@ export default function JobCards() {
       </Dialog>
 
 
-      {/* job cards content */}
-      {/* <JobCardsContent jobcardsItems={jobcardsItems} fetchJobCards={fetchJobCards} /> */}
+
 
       <JobCardsContent jobcardsItems={filteredJobcards.length ? filteredJobcards : jobcardsItems} fetchJobCards={fetchJobCards} />
     
