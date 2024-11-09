@@ -49,7 +49,7 @@ export default function Header() {
   }, [auth])
 
   return (
-    <div className={` mb-3 py-5 sticky bg-white top-0 shadow  z-50 `}>
+    <div className={` mb-3 py-2 sticky bg-white top-0 shadow  z-50 `}>
       <div className={`container-fluid px-10 m-auto flex items-center justify-between ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
         <div className="relative">
 

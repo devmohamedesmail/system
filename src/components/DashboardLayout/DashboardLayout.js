@@ -19,7 +19,7 @@ export default function DashboardLayout() {
   
   return (
     <div className={`flex h-screen page-layout ${i18n.language === "en" ? "" : "flex-row-reverse"}`} style={{ backgroundImage: theme === "light" ? "none" : "url('/images/bg.jpg')" }}>
-      <div className="overlay-bg" style={{ opacity: theme === "light" ?  1 : 1 , backgroundColor: theme === "light" ? "#f5f5f5" : "#1f1f1f" }}>
+      <div className="overlay-bg" style={{ opacity: theme === "light" ?  1 : 1 , backgroundColor: theme === "light" ? "#f8f9fa" : "#1f1f1f" }}>
         <Header />
     
         <div className="container-fluid px-10">

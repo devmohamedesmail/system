@@ -19,9 +19,27 @@
   font-family: "Cairo", sans-serif;
 }
 
+.p-multiselect-filte{
+  padding: 10px !important;
+  height: 20px !important;
+}
+.p-multiselect-filter:focus{
+  border: 2px solid #ced4da !important;
+  outline: none;
+  box-shadow: none;
+  padding:  5px 10px !important;
+}
 
 
 
+
+/* 
+.p-multiselect-items .p-multiselect-item .p-multiselect-checkbox .p-checkbox input:checked{
+  background-color: red !important;
+  border: 2px solid black;
+  outline: #eb5e28;
+}
+ */
 
 
 

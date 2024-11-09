@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next'
 import { Dialog } from 'primereact/dialog';
-import { Dropdown } from 'primereact/dropdown';
 import { DataContext } from "../../context/DataProvider";
 import CustomInput from "../../custom/CustomInput";
 import CustomCalender from "../../custom/CustomCalender";
 import CustomButton from "../../custom/CustomButton";
 import JobCardsContent from "./JobCardsContent";
-import { MultiSelect } from 'primereact/multiselect';
 import axios from "axios";
 import { Setting } from "../../utilties/Setting";
 import { IoMdSearch } from "react-icons/io";
+import CustomMultiSelect from "../../custom/CustomMultiSelect";
+import CustomDropDownFilter from "../../custom/CustomDropDownFilter";
+import moment from 'moment';
+import CustomLoading from "../../custom/CustomLoading";
 
 export default function JobCards() {
   const [visible, setVisible] = useState(false);
@@ -28,6 +30,7 @@ export default function JobCards() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [filteredJobcards, setFilteredJobcards] = useState([]);
+  const [loading,setLoading] = useState(false)
 
 
   const handleWorkerChange = (e) => {
@@ -37,49 +40,6 @@ export default function JobCards() {
     // Assuming each worker object has an 'id' property
     const selectedIds = selected.map(worker => worker.id);
     setWorker(selectedIds);
-  };
-
-
-
-  const selectedCountryTemplate = (option, props) => {
-    if (option) {
-      return (
-        <div className="flex align-items-center">
-          <div>{option.carNo}</div>
-        </div>
-      );
-    }
-
-    return <span>{props.placeholder}</span>;
-  };
-
-  const countryOptionTemplate = (option) => {
-    return (
-      <div className="flex align-items-center">
-        <div>{option.carNo}</div>
-      </div>
-    );
-  };
-
-  // slected staff template
-  const selectedStaffTemplate = (option, props) => {
-    if (option) {
-      return (
-        <div className="flex align-items-center">
-          <div>{option.name}</div>
-        </div>
-      );
-    }
-
-    return <span>{props.placeholder}</span>;
-  };
-
-  const staffOptionTemplate = (option) => {
-    return (
-      <div className="flex align-items-center">
-        <div>{option.name}</div>
-      </div>
-    );
   };
 
 
@@ -110,6 +70,28 @@ export default function JobCards() {
     fetchJobCards();
   }, []);
 
+  const handleAddNewStage = async() =>{
+    setLoading(true)
+    try {
+      const formattedStart = moment(start).format('MM/DD/YYYY h:mm:ss A');
+      const formattedEnd = moment(end).format('MM/DD/YYYY h:mm:ss A');
+
+      await axios.post(`${Setting.url}add/stage/${selectedInvoiceID}`, {
+        "name":name,
+        "start":formattedStart,
+        "end":formattedEnd,
+        "worker":worker
+
+      })
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }finally{
+      setLoading(false)
+    }
+  }
+
 
 
   const handleFilter = () => {
@@ -131,9 +113,15 @@ export default function JobCards() {
 
       <div className='bg-white py-1 px-2 flex justify-between items-center '>
         <div className="flex items-center">
-            <CustomCalender value={startDate} onchange={e => setStartDate(e.target.value)} placeholder={t('from')}  />
-            <CustomCalender value={endDate} onchange={e => setEndDate(e.target.value)} placeholder={t('to')}  />
-            <button onClick={handleFilter} className="bg-primary w-12 h-12 mt-5 rounded-md flex justify-center items-center mx-1"><IoMdSearch color="white" size={25} /></button>
+
+          <div className="mx-1">
+            <CustomCalender value={startDate} onchange={e => setStartDate(e.target.value)} placeholder={t('from')} />
+          </div>
+          <div className="mx-1">
+            <CustomCalender value={endDate} onchange={e => setEndDate(e.target.value)} placeholder={t('to')} />
+          </div>
+
+          <button onClick={handleFilter} className="bg-primary w-12 h-12 mt-5 rounded-md flex justify-center items-center mx-1"><IoMdSearch color="white" size={25} /></button>
         </div>
         <div className='flex items-center'>
           <div className='flex flex-col justify-center items-center bg-red-300 w-fit p-2 rounded-md m-3'>
@@ -146,22 +134,13 @@ export default function JobCards() {
 
 
       <Dialog header={t('add-job-card')} visible={visible} style={{ width: '50vw' }} onHide={() => { if (!visible) return; setVisible(false); }}>
-        <div className="m-1">
-          <Dropdown value={selectedInvoice} onChange={(e) => setselectedInvoice(e.value)} options={invoices} optionLabel="carNo" placeholder={t('select-car-no')}
-            filter valueTemplate={selectedCountryTemplate} itemTemplate={countryOptionTemplate} className="w-full md:w-14rem" />
-        </div>
-        <div>
-          <CustomInput value={name} onchange={(e) => setName(e.target.value)} placeholder={t('job-card-name')} />
-        </div>
 
-
-
-
-
-        <div className="">
-          <MultiSelect value={selectedWorker} onChange={handleWorkerChange} options={staff} optionLabel="name"
-            placeholder={t('selectstaff')} maxSelectedLabels={3} className="w-full md:w-20rem" />
-        </div>
+        <CustomDropDownFilter value={selectedInvoice} onChange={(e) => {
+          setselectedInvoice(e.value);
+          setselectedInvoiceID(e.value.id);
+        }} options={invoices} label='carNo' placeholder={t('select-car-no')} searchItem='carNo' />  
+        <CustomInput value={name} onchange={(e) => setName(e.target.value)} placeholder={t('job-card-name')} />
+        <CustomMultiSelect value={selectedWorker} onChange={handleWorkerChange} options={staff} label='name' placeholder={t('selectstaff')} />
 
 
 
@@ -176,7 +155,8 @@ export default function JobCards() {
           <CustomCalender value={end} onchange={(e) => setEnd(e.target.value)} placeholder={t('enddate')} />
         </div>
         <div>
-          <CustomButton title={t('add')} onpress={() => alert('fdsfsdfsdf')} />
+          {loading ? <CustomLoading /> :  <CustomButton title={t('add')} onpress={() => handleAddNewStage()} /> }
+         
         </div>
       </Dialog>
 
@@ -184,7 +164,7 @@ export default function JobCards() {
 
 
       <JobCardsContent jobcardsItems={filteredJobcards.length ? filteredJobcards : jobcardsItems} fetchJobCards={fetchJobCards} />
-    
+
     </div>
 
 

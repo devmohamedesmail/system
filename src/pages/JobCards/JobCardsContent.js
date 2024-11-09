@@ -1,11 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Setting } from '../../utilties/Setting'
 import axios from 'axios'
-import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useTranslation } from 'react-i18next';
-import { MdDone } from "react-icons/md";
-import { FaTrashCan } from "react-icons/fa6";
-import { MdEdit } from "react-icons/md";
 import CustomLoading from '../../custom/CustomLoading';
 import JobCardItem from './JobCardItem';
 
@@ -35,7 +31,7 @@ export default function JobCardsContent({ fetchJobCards, jobcardsItems }) {
             const minutes = Math.floor((remainingTime % 3600000) / 60000);
             return `${hours}h ${minutes}m ${t('remaining')}`;
         } else {
-            return 'Expired';
+            return <p className='bg-red-200 w-fit px-5 py-1 rounded-md'>Expired</p>;
         }
     };
 
@@ -71,7 +67,7 @@ export default function JobCardsContent({ fetchJobCards, jobcardsItems }) {
 
     return (
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-5'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-2 my-5'>
             {jobcardsItems.length > 0 ? (
                 jobcardsItems.map((card, index) => (
                     
@@ -94,7 +90,10 @@ export default function JobCardsContent({ fetchJobCards, jobcardsItems }) {
                     />
                 ))
             ) : (
-                <CustomLoading />
+               
+                <div>
+                     <CustomLoading />
+                </div>
             )}
         </div>
     )

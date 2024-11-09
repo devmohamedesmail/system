@@ -3,6 +3,10 @@ import { MdDone } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useTranslation } from 'react-i18next';
+import { FaCommentAlt } from "react-icons/fa";
+import { FaCommentDots } from "react-icons/fa";
+
+
 
 export default function JobCardItem({
     carType,
@@ -17,23 +21,37 @@ export default function JobCardItem({
     deleteStage,
     openMenuIndex,
     setOpenMenuIndex,
-    index,status }) {
+    index, status ,isActive}) {
     const { t } = useTranslation();
     return (
-        <div className='bg-white rounded-lg shadow-lg p-4' key={id}>
+        <div className='bg-white rounded-lg shadow-sm py-2 px-2 border border-orange-100' key={id}>
             <div className='flex justify-between items-start'>
                 <div className='flex items-center justify-start'>
-                    <img src='/images/icons/truck.png' width='70px' alt="Truck" />
-                   
+                    <img src='/images/icons/truck.png' width='60px' alt="Truck" />
+
                     <div className='flex flex-col '>
-                    {status === '1'? (<p className='bg-orange-100 p-2 rounded-lg text-black text-xs text-center'>{t('done')}</p>):(<p className='bg-red-100 p-2 rounded-lg text-black text-xs text-center'>{t('inprogress')}</p>)}
-                    <h5 className='mt-1'>{carType}</h5>
+                         <div className='flex items-center '>
+                         {status === '1' ? (<p className='bg-orange-100 p-2 rounded-lg text-black text-xs text-center mx-2'>{t('done')}</p>) : (<p className='bg-red-100 p-2 rounded-lg text-black text-xs text-center mx-2'>{t('inprogress')}</p>)}
+                         {isActive === 1 ? (<p className='bg-green-100 p-2 rounded-lg text-black text-xs text-center mx-2'>{t('active')}</p>) : (<p className='bg-red-300 p-2 rounded-lg text-black text-xs text-center mx-2'>{t('stop')}</p>)}
+
+                        </div>
+                        <h5 className='mt-1 font-bold text-sm italic' >{carType}</h5>
                     </div>
                 </div>
+
+               
+                <div className='flex justify-between items-center'>
+                    <div className='comments relative mx-4'>
+                       <FaCommentAlt color='#4c0054' size={20} />
+                       <span className='absolute -top-3 -right-2 text-xs text-gray-500'>
+                          <FaCommentDots color='#fe5d39' size={20} />
+                       </span>
+                    </div>
+                
                 <div className='relative'>
                     <button
                         onClick={() => setOpenMenuIndex(openMenuIndex === index ? null : index)}
-                        className='border-2 border-primary text-primary px-3 py-2 rounded-lg'
+                        className='border border-gray-600 text-primary p-2 rounded-lg'
                     >
                         <HiOutlineDotsVertical />
                     </button>
@@ -51,15 +69,18 @@ export default function JobCardItem({
                         </div>
                     )}
                 </div>
+                </div>
             </div>
             <div className='flex items-center justify-between'>
-                <div className='bg-slate-200 border-2 border-primary text-center font-semibold px-3 text-primary py-2 w-44 rounded-md mt-4'>
+
+                <div className='bg-gray border-2 border-primary text-center font-semibold px-3 text-primary py-2 w-44 rounded-md mt-4'>
                     {carNo}
                 </div>
+
                 <div>
-                    <p>{start}</p>
-                    <p>{end}</p>
-                    <div className='mt-2'>
+                    <p className='italic text-sm'>{start}</p>
+                    <p className='italic text-sm'>{end}</p>
+                    <div className='mt-2 flex justify-center'>
                         <p className='text-sm text-gray-600 text-center'>{RemainingTime}</p>
                     </div>
                 </div>
