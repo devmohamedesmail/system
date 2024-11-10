@@ -1,3 +1,3 @@
 export const Setting = {
-    url:'https://naqraa.net/api/'
+    url:'https://alkhtaboot.net/api/'
 }
