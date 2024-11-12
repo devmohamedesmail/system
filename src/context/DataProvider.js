@@ -12,7 +12,13 @@ export default function DataProvider({ children }) {
 
   const fetchInvoiceTypes = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/invoices/type/`);
+      const response = await axios.get(`${Setting.url}show/invoices/type/`,{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: false,
+      });
       setinvoicesTypes(response.data.data);
     } catch (error) {
       console.log(error);
@@ -21,7 +27,13 @@ export default function DataProvider({ children }) {
   // method types
   const fetchMethodTypes = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/method/type`);
+      const response = await axios.get(`${Setting.url}show/method/type`,{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: false,
+      });
       setmethodTypes(response.data.data);
     } catch (error) {
       console.log(error);
@@ -31,7 +43,13 @@ export default function DataProvider({ children }) {
   // fetch invoices
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/invoices`);
+      const response = await axios.get(`${Setting.url}show/invoices`,{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: false,
+      });
       setInvoices(response.data.data);
     } catch (error) {
       console.log(error);
@@ -41,7 +59,13 @@ export default function DataProvider({ children }) {
   // fetch departments
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/departments`);
+      const response = await axios.get(`${Setting.url}show/departments`,{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: false,
+      });
       setDepartemts(response.data.data);
     } catch (error) {
       console.log(error);
@@ -50,7 +74,13 @@ export default function DataProvider({ children }) {
 
   const fetchStaff = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/staff`);
+      const response = await axios.get(`${Setting.url}show/staff`,{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        withCredentials: false,
+      });
       setStaff(response.data.data);
     } catch (error) {
       console.log(error);
