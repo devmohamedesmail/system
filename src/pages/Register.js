@@ -29,6 +29,8 @@ export default function Register() {
         name,
         email,
         password,
+      }, {
+        withCredentials: true, // Important for sending cookies with CORS requests
       });
 
       setLoading(false);

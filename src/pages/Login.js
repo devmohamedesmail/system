@@ -31,6 +31,8 @@ export default function Login() {
       const response = await axios.post(`${Setting.url}login`, {
         email,
         password,
+      }, {
+        withCredentials: true, // Important for sending cookies with CORS requests
       });
       setauth(response.data);
       if (auth.user.role === "user") {
