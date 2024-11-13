@@ -9,10 +9,7 @@ function BranchesProvider({ children }) {
   const fetchBranches = async () => {
     try {
       const response = await axios.get(`${Setting.url}show/branches/`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+      
         withCredentials: false,
       });
       setBranches(response.data.data);

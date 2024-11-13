@@ -64,6 +64,10 @@ export default function PaperInvoice({ data, notes }) {
         <p className="border border-black py-2 px-20">{data.invoiceType}</p>
       </div>
 
+      <div className="flex justify-center items-center mt-5">
+        <p className="py-2 px-20">TRN No. 104232161000003</p>
+      </div>
+
       <div className="client-info my-5 grid grid-cols-2">
         <div className="flex item-center justify-end my-2">
           <p className="mx-1 text-sm"> {data.phone} </p>

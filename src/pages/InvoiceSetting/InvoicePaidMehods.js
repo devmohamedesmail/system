@@ -64,16 +64,19 @@ export default function InvoicePaidMehods() {
         {errormethod && <p style={{ color: "red" }}>{error}</p>}
       </div>
 
+     
+      <div className="my-10">
       {loading ? (
         <CustomLoading />
       ) : (
         <CustomButton title={t("add")} onpress={() => handleAddmethodType()} />
       )}
+      </div>
 
       <div className="my-3">
         {methodTypes && methodTypes.length > 0 ? (
           <div className="flex item-center">{methodTypes.map((item)=>(
-            <p className="mx-2 px-3 py-2 rounded-full bg-light">{item.method}</p>
+            <p className="mx-2 px-3 py-2 rounded-full bg-primary text-white">{item.method}</p>
           ))}</div>
           ):(<></>)}
       </div>

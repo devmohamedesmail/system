@@ -54,6 +54,7 @@ export default function SubMenu() {
                     <button onClick={() => handleLinkClick('/dashboard/checks/page')} className='p-1 hover:bg-primary hover:text-white px-2 py-2 w-full text-left'>{t('checks')}</button>
                     <button onClick={() => handleLinkClick('/dashboard/users/page')} className='p-1 hover:bg-primary hover:text-white px-2 py-2 w-full text-left'>{t('users')}</button>
                     <button onClick={() => handleLinkClick('/dashboard/setting/page')} className='p-1 hover:bg-primary hover:text-white px-2 py-2 w-full text-left'>{t('setting')}</button>
+                    <button onClick={() => handleLinkClick('/dashboard/invoice/setting')} className='p-1 hover:bg-primary hover:text-white px-2 py-2 w-full text-left'>{t('invoiceSetting')}</button>
                 </div>
             </div>
         )}

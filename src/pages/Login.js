@@ -20,6 +20,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const { auth, setauth } = useContext(AuthContext);
   const [error, setError] = useState(null);
+  const [loginError, setLoginError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -31,8 +32,6 @@ export default function Login() {
       const response = await axios.post(`${Setting.url}login`, {
         email,
         password,
-      }, {
-        withCredentials: true, // Important for sending cookies with CORS requests
       });
       setauth(response.data);
       if (auth.user.role === "user") {
@@ -43,7 +42,7 @@ export default function Login() {
       }
       setLoading(false);
     } catch (error) {
-      alert(t('error'));
+     setLoginError(true)
       setLoading(false);
     } finally {
       setLoading(false);
@@ -57,7 +56,7 @@ export default function Login() {
 
           <div className="mb-10 flex items-center">
             <LanguageSwitch />
-            {/* <SwitchMode /> */}
+    
           </div>
 
 
@@ -80,6 +79,13 @@ export default function Login() {
           <div>
             {error ? (
               <p className="text-red-600 font-bold">{t("notallowedlogin")}</p>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div>
+            {loginError ? (
+              <p className="text-red-600 font-bold">{t("error")}</p>
             ) : (
               <></>
             )}

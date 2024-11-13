@@ -21,6 +21,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation()
   const {theme} =useTheme();
+  const [loginError, setLoginError] = useState(false);
 
   const handleRegister = async () => {
     try {
@@ -29,17 +30,16 @@ export default function Register() {
         name,
         email,
         password,
-      }, {
-        withCredentials: true, // Important for sending cookies with CORS requests
       });
 
       setLoading(false);
       navigate("/");
     } catch (error) {
-      alert(t('error'));
       setLoading(false);
+      setLoginError(true);
     } finally {
       setLoading(false);
+      setLoginError(false);
     }
   };
   return (
@@ -72,6 +72,14 @@ export default function Register() {
               placeholder={t("password")}
               onchange={(e) => setPassword(e.target.value)}
             />
+          </div>
+
+          <div>
+            {loginError ? (
+              <p className="text-red-600 font-bold">{t("error")}</p>
+            ) : (
+              <></>
+            )}
           </div>
 
          <div className="my-10">

@@ -65,7 +65,7 @@ export default function InvoiceSetting() {
       <CustomPageTitle title={t("invoiceSetting")} />
       <div className="bg-white  p-3 my-3">
         <CustomSectionTitle title={t("addnewtype")} />
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 my-10">
           <div>
             <CustomInput
               placeholder={t("addnewtype")}
@@ -89,7 +89,7 @@ export default function InvoiceSetting() {
           {invoicesTypes && invoicesTypes.length > 0 ? (
             <div className="flex items-center">
               {invoicesTypes.map((item)=>(
-                <p className="px-3 py-2 rounded-full bg-light mx-2">{item.type}</p>
+                <p className="px-3 py-2 rounded-full bg-primary text-white mx-2">{item.type}</p>
               ))}
             </div>
             ):(<></>)}
