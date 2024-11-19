@@ -50,6 +50,7 @@ export default function Checks() {
       });
       setLoading(false);
       fetchCheck();
+    
     } catch (error) {
       setLoading(false);
     }finally{
@@ -120,7 +121,7 @@ export default function Checks() {
   ];
 
   const deletecheck = async (row) => {
-    await axios.delete(`${Setting.url}delete/check/${row.id}`);
+    await axios.get(`${Setting.url}delete/check/${row.id}`);
     fetchCheck();
   };
 
@@ -198,7 +199,7 @@ export default function Checks() {
           <div className="mt-5">
             <CustomCalender
               value={date}
-              onchange={(e) => setDate(e.value)}
+              onchange={(e) => setDate(e.target.value)}
               placeholder={t("date")}
             />
           </div>
