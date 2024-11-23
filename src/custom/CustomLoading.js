@@ -6,7 +6,7 @@ export default function CustomLoading() {
     <div className="flex justify-center items-center ">
       <ThreeDots
         visible={true}
-        height="80"
+        height="30"
         width="100%"
         color="#4c0054"
         radius="9"

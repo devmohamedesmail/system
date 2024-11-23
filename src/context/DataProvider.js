@@ -9,10 +9,11 @@ export default function DataProvider({ children }) {
   const [invoices, setInvoices] = useState([]);
   const [departments, setDepartemts] = useState();
   const [staff, setStaff] = useState();
+  const [settingData,setSettingData]=useState()
 
   const fetchInvoiceTypes = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/invoices/type/`,{
+      const response = await axios.get(`${Setting.url}show/invoices/type/`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -27,7 +28,7 @@ export default function DataProvider({ children }) {
   // method types
   const fetchMethodTypes = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/method/type`,{
+      const response = await axios.get(`${Setting.url}show/method/type`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -43,7 +44,7 @@ export default function DataProvider({ children }) {
   // fetch invoices
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/invoices`,{
+      const response = await axios.get(`${Setting.url}show/invoices`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -59,7 +60,7 @@ export default function DataProvider({ children }) {
   // fetch departments
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/departments`,{
+      const response = await axios.get(`${Setting.url}show/departments`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -74,7 +75,7 @@ export default function DataProvider({ children }) {
 
   const fetchStaff = async () => {
     try {
-      const response = await axios.get(`${Setting.url}show/staff`,{
+      const response = await axios.get(`${Setting.url}show/staff`, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -87,12 +88,22 @@ export default function DataProvider({ children }) {
     }
   };
 
+  const fetch_Setting_Data = async () =>{
+    try {
+      const response = await axios.get(`${Setting.url}setting/get/1`);
+      setSettingData(response.data.data);
+    } catch (error) {
+      console.log("Error In Fetching Setting Data: " + error);
+    }
+  }
+
   useEffect(() => {
     fetchInvoiceTypes();
     fetchMethodTypes();
     fetchInvoices();
     fetchDepartments();
     fetchStaff();
+    fetch_Setting_Data();
   }, []);
   return (
     <DataContext.Provider
@@ -106,7 +117,9 @@ export default function DataProvider({ children }) {
         departments,
         fetchDepartments,
         staff,
-        fetchStaff
+        fetchStaff,
+        settingData,
+        fetch_Setting_Data,
       ]}
     >
       {children}

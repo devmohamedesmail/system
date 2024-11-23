@@ -1,9 +1,11 @@
 import React from 'react'
+import logoimage from './logo.png'
 
 export default function Logo({width}) {
+  
   return (
     <div>
-        <img src='/images/icons/logo.png' width={width} alt='logo' />
+        <img src={logoimage} width={width} alt='logo' />
     </div>
   )
 }

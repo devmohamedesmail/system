@@ -140,10 +140,14 @@
   "select-car-no": "Select Car Number",
   "job-card-name": "Job Card Name",
   "remaining": "Remaining",
-  "completed":"Completed",
-  "delete":"Delete",
-  "done":"Done",
-  "inprogress":"In Progress",
+  "completed": "Completed",
+  "delete": "Delete",
+  "done": "Done",
+  "inprogress": "In Progress",
   "from": "From",
-  "to": "To"
+  "to": "To",
+  "name_en": "Name English",
+  "name_ar": "Name Arabic",
+  "website": "Website",
+  "updated":"Updated"
 }

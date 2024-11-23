@@ -29,6 +29,8 @@ import { MdPerson } from "react-icons/md";
 import { FaMobileAlt } from "react-icons/fa";
 import { FaAddressBook } from "react-icons/fa";
 import { MdList, MdTableChart } from 'react-icons/md';
+import ReactDOM from 'react-dom';
+import Logo from "../../components/Logo/Logo";
 
 
 export default function ShowInvoices() {
@@ -43,6 +45,8 @@ export default function ShowInvoices() {
     fetchDepartments,
     staff,
     fetchStaff,
+    settingData,
+    fetch_Setting_Data,
   ] = useContext(DataContext);
   const { branches, fetchBranches } = useContext(BranchesContext);
   const { t } = useTranslation();
@@ -54,13 +58,14 @@ export default function ShowInvoices() {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState([]);
   const [branchName, setBranchName] = useState("");
   const [methodType, setMethodType] = useState("");
   const [visibleRight, setVisibleRight] = useState(false);
   const [users, setUsers] = useState([]);
   const { theme } = useTheme();
   const [isListView, setIsListView] = useState(true);
+  const [loadingInvoices, setLoadingInvoices] = useState(true);
 
   useEffect(() => {
     setrecords(invoices);
@@ -110,7 +115,10 @@ export default function ShowInvoices() {
               />
             )}
             <CustomActionButton
-              onpress={() => printInvoice(row)}
+              onpress={() => {
+                printInvoice(row, notes,settingData);
+
+              }}
               icon={<IoIosPrint size={20} color="green" />}
             />
           </div>
@@ -122,24 +130,54 @@ export default function ShowInvoices() {
     },
   ];
 
-  const printInvoice = (data) => {
-    const printWindow = window.open("", "", "height=600,width=800");
-    printWindow.document.write("<html><head><title>Print Invoice</title>");
-    // Add Tailwind CSS via CDN
-    printWindow.document.write(
-      '<link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">'
-    );
-    printWindow.document.write("</head><body >");
-    printWindow.document.write(
-      `<div id="printable-area">${ReactDOMServer.renderToStaticMarkup(
-        <PaperInvoice data={data} notes={notes} />
-      )}</div>`
-    );
-    printWindow.document.write("</body></html>");
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
+  const printInvoice = (row, notes, Logo,settingData) => {
+    const printContainer = document.createElement('div');
+    ReactDOM.render(<PaperInvoice data={row} notes={notes} Logo={Logo} settingData={settingData} />, printContainer);
+    document.body.appendChild(printContainer);
+
+    // Apply the print styles
+    const printStyles = `
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        .printable-area, .printable-area * {
+          visibility: visible;
+        }
+        .printable-area {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+           /* Hide browser header/footer information */
+      @page {
+        margin: 20px;
+      }
+
+      /* Optional: hide elements with class 'no-print' during printing */
+      .no-print {
+        display: none !important;
+      }
+      }
+    `;
+    const styleTag = document.createElement('style');
+    styleTag.innerHTML = printStyles;
+    document.head.appendChild(styleTag);
+
+    window.print();
+    setTimeout(() => {
+      document.body.removeChild(printContainer);
+      document.head.removeChild(styleTag);
+
+      window.location.reload();
+    }, 300000);
+
   };
+
+
+
+
+
 
   const handleDelete = async (record) => {
     const userConfirmed = window.confirm(`${t("alertdelete")}`);
@@ -171,7 +209,6 @@ export default function ShowInvoices() {
   };
 
   const handleExport = () => {
-    // Convert the data to a format compatible with XLSX
     const ws = XLSX.utils.json_to_sheet(invoices);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
@@ -229,15 +266,22 @@ export default function ShowInvoices() {
     setTotalPrice(newTotalPrice);
   }, [invoices, selectedBranch, selectedMethod]);
 
-  const fetchInvoiceNotes = async () => {
-    try {
-      const response = await axios.get(`${Setting.url}show/notes`);
-      setNotes(response.data.data);
-    } catch (error) { }
-  };
+  // Fetch the invoice notes when the component mounts
+  useEffect(() => {
+    const fetchInvoiceNotes = async () => {
+      try {
+        const response = await axios.get(`${Setting.url}show/notes`); // replace with your correct API endpoint
+        setNotes(response.data.data); // assuming response.data.data is the notes array
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      }
+    };
+    fetchInvoiceNotes();
+    setrecords(invoices);
+  }, [invoices]);
+
 
   useEffect(() => {
-    fetchInvoiceNotes();
     fetchusers();
   }, []);
 
@@ -254,8 +298,16 @@ export default function ShowInvoices() {
     setIsListView(!isListView);
   };
 
+
+
+
+
+
+
+
   return (
     <div className="m-3">
+
       <CustomPageTitle title={t('showinvoices')} />
 
       <div className="card flex justify-content-center">
@@ -312,8 +364,6 @@ export default function ShowInvoices() {
               <div className="flex justify-center mx-3">
 
                 <TableButton title={t("download")} onclick={handleExport} />
-
-
               </div>
               <div className="flex justify-center ">
                 <div className="flex items-center border rounded-full w-fit">
@@ -365,74 +415,74 @@ export default function ShowInvoices() {
             </label>
           </div>
 
+
+
           {records ? (
-            isListView ? (
-              records.map((record) => (
-                <div key={record.id} className="bg-white rounded-md shadow p-3 my-3 flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div>
-                      <img src="/images/icons/truck.png" width='70px' />
-                    </div>
-                    <div className="w-44">
-                      <h3 className="font-bold text-md text-primary">{record.carNo}</h3>
-                      <h3 className="font-normal text-xs">{record.carType}</h3>
-                      <h3 className="font-normal text-xs">{record.carService}</h3>
-                      <h3 className="font-semibold text-md text-primary">{record.price}</h3>
-                      <h3 className="font-normal text-xs">{record.percent}</h3>
-                    </div>
-                    <div className="mx-10">
-                      <h3 className="flex items-center"><MdPerson /> - {record.name}</h3>
-                      <h3 className="flex items-center"><FaMobileAlt /> - {record.phone}</h3>
-                      <h3 className="flex items-center"><FaAddressBook /> - {record.address}</h3>
-                    </div>
+            <>
+              {isListView ?
+                <>
+                  {records.length > 0 ? (
+                    <>
+
+                      {records.map((record) => (
+                        <div key={record.id} className="bg-white rounded-md shadow p-3 my-3 flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div>
+                              <img src="/images/icons/truck.png" width='70px' />
+                            </div>
+                            <div className="w-44">
+                              <h3 className="font-bold text-md text-primary">{record.carNo}</h3>
+                              <h3 className="font-normal text-xs">{record.carType}</h3>
+                              <h3 className="font-normal text-xs">{record.carService}</h3>
+                              <h3 className="font-semibold text-md text-primary">{record.price}</h3>
+                              <h3 className="font-normal text-xs">{record.percent}</h3>
+                            </div>
+                            <div className="mx-10">
+                              <h3 className="flex items-center"><MdPerson />  <span className="mx-1">{record.name}</span></h3>
+                              <h3 className="flex items-center"><FaMobileAlt />  <span className="mx-1">{record.phone}</span></h3>
+                              <h3 className="flex items-center"><FaAddressBook />  <span className="mx-1">{record.address}</span></h3>
+                            </div>
+                          </div>
+                          <div className="flex items-center flex-col">
+                            <div className="flex items-center">
+                              <CustomActionButton
+                                onpress={() => navigate("/dashboard/invoice/edit", { state: { invoice: record } })}
+                                icon={<MdEdit size={20} color="green" />}
+                              />
+                              <CustomActionButton
+                                onpress={() => handleDelete(record)}
+                                icon={<MdDelete size={20} color="red" />}
+                              />
+                              <CustomActionButton
+                                onpress={() => printInvoice(record, notes, Logo,settingData)}
+                                icon={<IoIosPrint size={20} color="green" />}
+                              />
+                            </div>
+                            <div className="my-1 flex flex-col justify-center items-center">
+                              <h3 className="my-1 text-green-600" >{record.Rdate}</h3>
+                              <h3 className="my-1 text-red-600">{record.Ddate}</h3>
+                              <h3 className="text-primary">{record.sales}</h3>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                    </>) : (<CustomLoading />)}
+                </> : <>
+                  <div className="my-3 px-3 bg-white">
+                    <DataTable
+                      columns={columns}
+                      data={records}
+                      pagination
+                      fixedHeader
+                      selectableRows
+                    />
                   </div>
-                  <div className="flex items-center flex-col">
-                    <div className="flex items-center">
-                      <CustomActionButton
-                        onpress={() => navigate("/dashboard/invoice/edit", { state: { invoice: record } })}
-                        icon={<MdEdit size={20} color="green" />}
-                      />
-                      <CustomActionButton
-                        onpress={() => handleDelete(record)}
-                        icon={<MdDelete size={20} color="red" />}
-                      />
-                      <CustomActionButton
-                        onpress={() => printInvoice(record)}
-                        icon={<IoIosPrint size={20} color="green" />}
-                      />
-                    </div>
-                    <div className="my-1 flex flex-col justify-center items-center">
-                      <h3>{record.Rdate}</h3>
-                      <h3>{record.Ddate}</h3>
-                      <h3 className="text-primary">{record.sales}</h3>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="my-3 px-3 bg-white">
-                <DataTable
-                  columns={columns}
-                  data={records}
-                  pagination
-                  fixedHeader
-                  selectableRows
-                />
-              </div>
-            )
-          ) : (
-            <CustomLoading />
-          )}
+                </>}
+
+            </>) : (<CustomLoading />)}
+
         </div>
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
