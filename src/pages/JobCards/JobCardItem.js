@@ -87,7 +87,7 @@ export default function JobCardItem({
             </div>
             <div className='flex items-center justify-start flex-wrap mt-4'>
                 {worker && worker.map((w, i) => (
-                    <p className='bg-secondary border border-primary text-center text-xs px-3 text-primary py-1 w-fit rounded-md mx-1' key={i}>{w}</p>
+                    <p className='bg-light border border-primary text-center text-xs px-3 text-primary py-1 w-fit rounded-md mx-1' key={i}>{w}</p>
                 ))}
             </div>
         </div>

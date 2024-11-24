@@ -12,7 +12,7 @@ export default function CustomDropDownMenu({
 
   return (
   
-    <div className={`border ${isFocused ? 'border-primary border-2' : 'border-secondary border-2'} rounded`}>
+    <div className={`border-2 ${isFocused ? 'border-primary' : 'border-light border-2'} rounded`}>
       <Dropdown
         value={value}
         onChange={onchange}

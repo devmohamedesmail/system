@@ -14,6 +14,7 @@ import CustomLoading from "../custom/CustomLoading";
 import './screenStyle.css'
 import SwitchMode from "../components/SwitchMode/SwitchMode";
 import { useTheme } from "../context/ThemeContext";
+import { Button } from 'primereact/button';
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const {theme}=useTheme()
+  const { theme } = useTheme()
 
   const handlelogin = async () => {
     try {
@@ -42,7 +43,7 @@ export default function Login() {
       }
       setLoading(false);
     } catch (error) {
-     setLoginError(true)
+      setLoginError(true)
       setLoading(false);
     } finally {
       setLoading(false);
@@ -52,15 +53,11 @@ export default function Login() {
   return (
     <div className="h-screen flex justify-center items-center login-page">
       <div className="overlay-bg w-full h-full flex justify-center items-center">
-        <div className={`rounded-lg shadow-sm p-3  w-full md:w-3/6 lg:w-3/12 m-5 py-10 login-container  ${theme === 'light' ? 'bg-white' : 'bg-black'} `}>
+        <div className={`rounded-lg shadow-lg p-3 bg-white w-full md:w-3/6 lg:w-3/12 m-5 py-10 login-container `}>
 
           <div className="mb-10 flex items-center">
             <LanguageSwitch />
-    
           </div>
-
-
-
 
           <div className="mb-3">
             <CustomInput
@@ -78,14 +75,14 @@ export default function Login() {
           </div>
           <div>
             {error ? (
-              <p className="text-red-600 font-bold">{t("notallowedlogin")}</p>
+              <p className="text-red-600 font-semibold">{t("notallowedlogin")}</p>
             ) : (
               <></>
             )}
           </div>
           <div>
             {loginError ? (
-              <p className="text-red-600 font-bold">{t("error")}</p>
+              <p className="text-red-600 font-semibold">{t("error")}</p>
             ) : (
               <></>
             )}
@@ -102,8 +99,8 @@ export default function Login() {
             )}
           </div>
           <div className={`flex items-center my-3 ${i18n.language === 'ar' ? "flex-row-reverse" : ""}`}>
-            <p className={`mx-2 font-bold ${theme=== 'light' ? "text-black" : "text-white"}`}>{t("noaccount")} </p>
-            <Link to="/register" className={`mx-2 ${theme=== 'light' ? "text-dark-mode" : "text-primary"}`}>
+            <p className={`mx-2`}>{t("noaccount")} </p>
+            <Link to="/register" className={`mx-2 `}>
               {t("register")}
             </Link>
           </div>

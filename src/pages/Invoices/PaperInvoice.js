@@ -15,6 +15,7 @@ const formatDate = (date) => {
 
 export default function PaperInvoice({ data, notes, Logo, settingData }) {
   const [date, setdate] = useState(new Date());
+  
 
   return (
     <div className="printable-area">

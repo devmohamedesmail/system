@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import CustomPageTitle from "../../custom/CustomPageTitle";
 import { DataContext } from "../../context/DataProvider";
 import DataTable from "react-data-table-component";
@@ -12,11 +12,9 @@ import { Setting } from "../../utilties/Setting";
 import CustomLoading from "../../custom/CustomLoading";
 import { Link, useNavigate } from "react-router-dom";
 import PaperInvoice from "./PaperInvoice";
-import ReactDOMServer from "react-dom/server";
 import TableSearchBox from "../../components/TableSearchBox/TableSearchBox";
 import * as XLSX from "xlsx";
 import TableButton from "../../components/InvoicesComponents/TableButton";
-import CustomSelect from "../../custom/CustomSelect";
 import { BranchesContext } from "../../context/BranchesProvider";
 import { ImportExcel } from "../../utilties/ImportExcel";
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
@@ -31,29 +29,21 @@ import { FaAddressBook } from "react-icons/fa";
 import { MdList, MdTableChart } from 'react-icons/md';
 import ReactDOM from 'react-dom';
 import Logo from "../../components/Logo/Logo";
+import { Button } from 'primereact/button';
+
+import { TbSortAscendingNumbers } from "react-icons/tb";
+import { TbSortDescendingNumbers } from "react-icons/tb";
+
+
 
 
 export default function ShowInvoices() {
-  const [
-    invoicesTypes,
-    fetchInvoiceTypes,
-    methodTypes,
-    fetchMethodTypes,
-    invoices,
-    fetchInvoices,
-    departments,
-    fetchDepartments,
-    staff,
-    fetchStaff,
-    settingData,
-    fetch_Setting_Data,
-  ] = useContext(DataContext);
+  const [, , methodTypes, , invoices, fetchInvoices, , , , , settingData, ,] = useContext(DataContext);
   const { branches, fetchBranches } = useContext(BranchesContext);
   const { t } = useTranslation();
   const [records, setrecords] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("");
   const [file, setFile] = useState(null);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -65,11 +55,35 @@ export default function ShowInvoices() {
   const [users, setUsers] = useState([]);
   const { theme } = useTheme();
   const [isListView, setIsListView] = useState(true);
-  const [loadingInvoices, setLoadingInvoices] = useState(true);
+  const [isDescending, setIsDescending] = useState(true);
+
+
 
   useEffect(() => {
     setrecords(invoices);
   }, [invoices]);
+
+
+  // const reorderRecords = () => {
+  //   const sortedRecords = [...records].sort((a, b) => b.id - a.id); // Sort descending by id
+  //   setrecords(sortedRecords);
+  // };
+
+
+  const reorderRecords = (descending) => {
+    const sortedRecords = [...records].sort((a, b) => {
+      return descending ? b.id - a.id : a.id - b.id;  // Toggle the sorting based on `isDescending`
+    });
+    setrecords(sortedRecords);
+  };
+
+  // Function to toggle the sorting direction
+  const toggleSortDirection = () => {
+    setIsDescending(!isDescending);
+    reorderRecords(!isDescending); // Reorder when direction changes
+  };
+
+
 
   const columns = [
     {
@@ -100,6 +114,7 @@ export default function ShowInvoices() {
           navigate("/dashboard/invoice/edit", { state: { invoice: row } });
         };
 
+
         return (
           <div className="flex items-center">
             <CustomActionButton
@@ -116,11 +131,13 @@ export default function ShowInvoices() {
             )}
             <CustomActionButton
               onpress={() => {
-                printInvoice(row, notes,settingData);
+                printInvoice(row, notes, settingData, Logo);
 
               }}
               icon={<IoIosPrint size={20} color="green" />}
             />
+
+
           </div>
         );
       },
@@ -130,7 +147,7 @@ export default function ShowInvoices() {
     },
   ];
 
-  const printInvoice = (row, notes, Logo,settingData) => {
+  const printInvoice = (row, notes, Logo, settingData) => {
     const printContainer = document.createElement('div');
     ReactDOM.render(<PaperInvoice data={row} notes={notes} Logo={Logo} settingData={settingData} />, printContainer);
     document.body.appendChild(printContainer);
@@ -164,19 +181,21 @@ export default function ShowInvoices() {
     styleTag.innerHTML = printStyles;
     document.head.appendChild(styleTag);
 
-    window.print();
+    // Delay the print action by 3 seconds
     setTimeout(() => {
-      document.body.removeChild(printContainer);
-      document.head.removeChild(styleTag);
+      window.print(); // Trigger print after 3 seconds
 
-      window.location.reload();
-    }, 300000);
+      // Clean up after printing is triggered
+      setTimeout(() => {
+        document.body.removeChild(printContainer);
+        document.head.removeChild(styleTag);
+
+        // Optional: Reload the page after cleanup (you can comment this out if not needed)
+        window.location.reload();
+      }, 500); // A small delay before cleanup to ensure print window opened
+    }, 2000);
 
   };
-
-
-
-
 
 
   const handleDelete = async (record) => {
@@ -304,7 +323,6 @@ export default function ShowInvoices() {
 
 
 
-
   return (
     <div className="m-3">
 
@@ -402,9 +420,13 @@ export default function ShowInvoices() {
 
 
         <div>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-end mb-4">
 
-            <div></div>
+            <div className="mx-2">
+              <Button onClick={toggleSortDirection} className="bg-primary text-white px-4 py-2 rounded-md">
+                {isDescending ? <TbSortAscendingNumbers /> : <TbSortDescendingNumbers />}
+              </Button>
+            </div>
             <label className="flex items-center cursor-pointer">
 
               <input type="checkbox" checked={isListView} onChange={toggleView} className="toggle-checkbox hidden" />
@@ -454,9 +476,10 @@ export default function ShowInvoices() {
                                 icon={<MdDelete size={20} color="red" />}
                               />
                               <CustomActionButton
-                                onpress={() => printInvoice(record, notes, Logo,settingData)}
+                                onpress={() => printInvoice(record, notes, Logo, settingData)}
                                 icon={<IoIosPrint size={20} color="green" />}
                               />
+
                             </div>
                             <div className="my-1 flex flex-col justify-center items-center">
                               <h3 className="my-1 text-green-600" >{record.Rdate}</h3>

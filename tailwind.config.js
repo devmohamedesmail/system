@@ -7,10 +7,13 @@ module.exports = {
     extend: {
       colors: {
         primary: '#4c0054', 
-        secondary: '#d8d3e2',
-        // secondary: '#002642',
-        light: '#14213d',
-        // Light mode colors
+        secondary: '#fca311',
+        light: '#d8d3e2',
+        
+  
+
+
+
         'light-mode': {
           DEFAULT: '#4c0054', 
         },
