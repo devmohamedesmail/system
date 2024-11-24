@@ -18,7 +18,7 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
   
 
   return (
-    <div className="printable-area">
+    <div className="printable-area px-10">
 
       <div className="invoice-print relative ">
         <div className="header-invoice flex flex-row justify-between items-center">
