@@ -37,9 +37,7 @@ export default function SalesTargetSection({ users }) {
 
   // Select staff
   const handleChangeSales = (event) => {
-    setSelectedStaff(event.target.value.name)
-
-
+    setSelectedStaff(event.target.value.name);
   };
 
 
@@ -49,7 +47,7 @@ export default function SalesTargetSection({ users }) {
   };
 
 
-console.log(invoiceType)
+
 
 
   const filterSalesStaff = () => {

@@ -17,6 +17,7 @@ import AddProblem from "./AddProblem";
 import AddStage from "./AddStage";
 import CustomSectionTitle from "../../custom/CustomSectionTitle";
 import { useTheme } from "../../context/ThemeContext";
+import CustomSelectOption from "../../custom/CustomSelectOption";
 
 export default function EditInvoice() {
   const location = useLocation();
@@ -39,7 +40,8 @@ export default function EditInvoice() {
   const [Rdate, setRdate] = useState(invoice.Rdate);
   const [percent, setPercent] = useState(invoice.percent);
   const [paidMethod, setpaidMethod] = useState(invoice.paidMethod);
-  const {theme}=useTheme();
+  const [users, setUsers] = useState([]);
+  const { theme } = useTheme();
   const [
     invoicesTypes,
     fetchInvoiceTypes,
@@ -47,11 +49,17 @@ export default function EditInvoice() {
     fetchMethodTypes,
     invoices,
     fetchInvoices,
+    departments,
+    fetchDepartments,
+    staff,
+    fetchStaff,
   ] = useContext(DataContext);
   const [loading, setLoading] = useState(false);
   const [branchError, setbranchError] = useState("");
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState("center");
+  const [salesStaff, setsalesStaff] = useState();
+  const [sales, setSales] = useState(null);
 
   const handleEditInvoice = async () => {
     // Validation check for branch
@@ -77,8 +85,11 @@ export default function EditInvoice() {
         Rdate,
         paidMethod,
         percent,
+        sales,
       });
 
+
+      
       fetchInvoices();
       setLoading(false);
       setVisible(true);
@@ -90,12 +101,52 @@ export default function EditInvoice() {
       setLoading(false);
     }
   };
+  
+
+  useEffect(() => {
+    fetchusers();
+  }, []);
+
+  const fetchusers = async () => {
+    try {
+      const response = await axios.get(`${Setting.url}show/users`);
+      setUsers(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+  const filterSalesStaff = () => {
+    if (users) {
+      const result = users.filter((item) => item.role === "sales");
+      setsalesStaff(result);
+
+    } else {
+      console.log("No staff data available");
+    }
+  };
+
+
+  useEffect(() => {
+    filterSalesStaff()
+
+  }, [users])
+
+
+
+  const handleChangeSales = (event) => {
+    setSales(event.target.value.name);
+
+  };
+
 
   return (
     <div className="p-4 ">
       <CustomPageTitle title={t("editinvoice")} />
 
-      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <h2 className="font-bold text-center">{invoice.invoiceNumber}</h2>
         <CustomSectionTitle title={t("invoiceinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -122,7 +173,7 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
         <CustomSectionTitle title={t("clientinfo")} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomInput
@@ -143,9 +194,9 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
 
-        <CustomSectionTitle  title={t("carinfo")}/>
+        <CustomSectionTitle title={t("carinfo")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomInput
@@ -181,9 +232,9 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
-        
-        <CustomSectionTitle  title={t("deliveryinfo")} />
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
+
+        <CustomSectionTitle title={t("deliveryinfo")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="border-2 p-2">
@@ -209,8 +260,8 @@ export default function EditInvoice() {
         </div>
       </div>
 
-      <div className={`my-3 p-3 ${theme==='light'? 'bg-white':'bg-black'}`}>
-        
+      <div className={`my-3 p-3 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
+
         <CustomSectionTitle title={t("paidstatus")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,6 +272,29 @@ export default function EditInvoice() {
             optionLabel="method"
             placeholder={t("selectinvoicetype")}
           />
+
+        </div>
+
+       
+      </div>
+
+      <div className="my-3 py-2 bg-white px-2">
+      <CustomSectionTitle title={t("sales")} />
+      <div className="grid grid-cols-1">
+          <div className="">
+            <p>{invoice.sales}</p>
+            {salesStaff && salesStaff.length > 0 ? (
+              <CustomSelectOption
+                value={sales}
+                onchange={handleChangeSales}
+                options={salesStaff}
+                labelTitle="name"
+                placeholder={t("selectstaff")}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
 
@@ -235,8 +309,8 @@ export default function EditInvoice() {
         )}
       </div>
 
-      <AddProblem invoice={invoice} />
-      <AddStage invoice={invoice} />
+      {/* <AddProblem invoice={invoice} />
+      <AddStage invoice={invoice} /> */}
       <CustomModal
         visible={visible}
         setVisible={setVisible}
