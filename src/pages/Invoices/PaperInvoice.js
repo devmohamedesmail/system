@@ -147,7 +147,7 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
             <p>No notes available.</p>
           )}
         </div>
-        <div className="flex justify-between fixed bottom-1 right-0 left-0">
+        <div className="flex justify-between  mt-10">
           <div className="flex flex-col">
             <p> Authorized Signature </p>
             <p> --------------------- </p>
@@ -161,9 +161,13 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
 
 
 
-        {/* Second page */}
+   
 
-        <div className="header-invoice flex flex-row justify-between items-center">
+      </div>
+
+           {/* Second page */}
+
+           <div className="header-invoice flex flex-row justify-between items-center">
           <img
             src={`${Setting.url2}/uploads/setting/${settingData.logo}`}
             width={150}
@@ -207,8 +211,6 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
         </p>
        </div>
 
-
-      </div>
     </div>
   );
 }
