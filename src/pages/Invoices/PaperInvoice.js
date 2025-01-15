@@ -35,9 +35,9 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
             {data.invoiceType}
           </p>
         </div>
-        <div className="flex justify-center items-center mt-5">
-          <p className="border border-black font-bold py-2 px-20">
-           100289623900003
+        <div className="flex justify-center items-center ">
+          <p className="  font-bold py-2 px-20">
+          Tokio Marine TRN number 100289623900003
           </p>
         </div>
         <div className="grid grid-cols-2 my-5">
