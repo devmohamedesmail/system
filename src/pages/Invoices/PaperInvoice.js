@@ -30,9 +30,15 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
         </div>
 
         <hr className="w-100 h-2 bg-black " />
-        <div className="flex justify-center items-center mt-5">
+        <div className="flex justify-center items-center ">
           <p className="border border-black font-bold py-2 px-20">
             {data.invoiceType}
+          </p>
+        </div>
+
+        <div className="flex justify-center items-center ">
+          <p className="py-2 px-20">
+           TRN No :  {data.trn_no}
           </p>
         </div>
        
@@ -53,6 +59,7 @@ export default function PaperInvoice({ data, notes, Logo, settingData }) {
             <p className="mx-1 text-sm"> {data.invoiceNumber} </p>
             <p className="mx-1 text-sm"> : رقم الفاتوره </p>
           </div>
+          
         </div>
         {/* ------------------ car info ------------------------ */}
 

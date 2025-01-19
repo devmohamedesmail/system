@@ -41,6 +41,7 @@ export default function EditInvoice() {
   const [percent, setPercent] = useState(invoice.percent);
   const [paidMethod, setpaidMethod] = useState(invoice.paidMethod);
   const [users, setUsers] = useState([]);
+  const [trn_no,settrn_no]=useState(invoice.trn_no)
   const { theme } = useTheme();
   const [
     invoicesTypes,
@@ -86,6 +87,7 @@ export default function EditInvoice() {
         paidMethod,
         percent,
         sales,
+        trn_no
       });
 
 
@@ -190,6 +192,11 @@ export default function EditInvoice() {
             placeholder={t("phone")}
             value={phone}
             onchange={(e) => setPhone(e.target.value)}
+          />
+          <CustomInput
+            placeholder={t("TRN no")}
+            value={trn_no}
+            onchange={(e) => settrn_no(e.target.value)}
           />
         </div>
       </div>
