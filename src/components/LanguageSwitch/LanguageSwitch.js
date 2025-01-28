@@ -1,12 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '../../context/ThemeContext';
+
 
 
 export default function LanguageSwitch() {
   const { i18n } = useTranslation();
-  const {theme} = useTheme();
-
 
 
   // Define the languages
@@ -27,7 +25,7 @@ export default function LanguageSwitch() {
 
 
     <div>
-      <button className={`mx-5 p-2  text-sm hover:cursor-pointer rounded-md ${theme === 'light' ? 'bg-light-mode text-white' : 'bg-primary text-black'} } `} onClick={() => changeLanguage(oppositeLanguage)}>
+      <button className={`mx-5 py-3 px-7  text-sm hover:cursor-pointer rounded-md bg-primary text-white } `} onClick={() => changeLanguage(oppositeLanguage)}>
         {languages[oppositeLanguage]}
       </button>
     </div>

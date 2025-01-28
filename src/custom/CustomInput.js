@@ -22,7 +22,7 @@ export default function CustomInput({ type, placeholder, value, onchange, id }) 
           type={type}
           value={value}
           onChange={onchange}
-          className={`p-3 border-2 focus:outline-none focus:border-primary transition-all ease-in-out  w-full ${i18n.language === 'ar' ? 'text-right arabic-font' : ''}`} />
+          className={`p-3 border-2 rounded-xl focus:outline-none focus:border-primary transition-all ease-in-out  w-full ${i18n.language === 'ar' ? 'text-right arabic-font' : ''}`} />
         
       </div>
     

@@ -8,7 +8,7 @@ export default function CustomButton({title,width,onpress}) {
   return (
     <div className='text-center'>
         <button 
-            className={` bg-primary text-white px-10 align-middle  py-3 transition-colors ease-in-out duration-800 text-black hover:bg-secondary hover:shadow-lg ${widthClass} `}
+            className={` rounded-lg bg-primary text-white px-10 align-middle  py-3 transition-colors ease-in-out duration-800 text-black hover:bg-secondary hover:shadow-lg ${widthClass} `}
             aria-label={title}
             onClick={onpress} 
         >{title}</button>

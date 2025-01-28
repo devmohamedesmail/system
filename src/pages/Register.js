@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../components/Logo/Logo";
 import CustomInput from "../custom/CustomInput";
 import CustomButton from "../custom/CustomButton";
-import SocialLoginButton from "../components/SocialLoginButton.js/SocialLoginButton";
 import axios from "axios";
 import { Setting } from "../utilties/Setting";
 import CustomLoading from "../custom/CustomLoading";
@@ -11,7 +9,7 @@ import LanguageSwitch from "../components/LanguageSwitch/LanguageSwitch";
 import { useTranslation } from "react-i18next";
 import i18n from "../translation/i18n";
 import { useTheme } from "../context/ThemeContext";
-import SwitchMode from "../components/SwitchMode/SwitchMode";
+
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -20,7 +18,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation()
-  const {theme} =useTheme();
+  const { theme } = useTheme();
   const [loginError, setLoginError] = useState(false);
 
   const handleRegister = async () => {
@@ -43,15 +41,33 @@ export default function Register() {
     }
   };
   return (
-    <div className="h-screen flex justify-center items-center login-page">
-      <div className="overlay-bg w-full h-full flex justify-center items-center">
-        <div className={`rounded-lg shadow-sm p-3  w-full md:w-3/6 lg:w-3/12 m-5 py-10 login-container  ${theme === 'light' ? 'bg-white' : 'bg-black'} `}>
+    <div className="h-screen bg-gray-100 ">
 
-          <div className="mb-10 flex items-center">
-            <LanguageSwitch />
+      <div className="container m-auto  border-b-2 border-gray-300">
+        <div className="flex justify-end py-3">
+          <LanguageSwitch />
+        </div>
+      </div>
+
+
+
+
+      <div className="flex justify-center items-center m-auto mt-10 m-5r">
+        <div className='rounded-lg shadow-sm p-3 bg-white w-full md:w-3/6 lg:w-3/12 m-5 py-10 login-container'>
+
+          <h4 className="font-bold text-center text-2xl mb-10">{t('register')}</h4>
+
+          <div className="mb-7">
+            <CustomInput
+              type="text"
+              placeholder={t("name")}
+              onchange={(e) => setName(e.target.value)}
+            />
           </div>
 
-          <div className="mb-3">
+
+
+          <div className="mb-7">
             <CustomInput
               type="email"
               placeholder={t("email")}
@@ -59,14 +75,11 @@ export default function Register() {
             />
           </div>
 
-          <div className="mb-3">
-            <CustomInput
-              type="text"
-              placeholder={t("name")}
-              onchange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
+
+
+
+
+          <div className="mb-7">
             <CustomInput
               type="password"
               placeholder={t("password")}
@@ -82,28 +95,28 @@ export default function Register() {
             )}
           </div>
 
-         <div className="my-10">
-         {loading ? (
-            <CustomLoading />
-          ) : (
-            <CustomButton
-              title={t("register")}
-              width="w-full"
-              onpress={() => handleRegister()}
-            />
-          )}
-         </div>
+          <div className="my-10">
+            {loading ? (
+              <CustomLoading />
+            ) : (
+              <CustomButton
+                title={t("register")}
+                width="w-full"
+                onpress={() => handleRegister()}
+              />
+            )}
+          </div>
 
 
-          
 
-          <div className={`flex items-center my-3 ${i18n.language === 'ar' ? "flex-row-reverse" : ""}`}>
-            <p className={`mx-2 font-bold ${theme=== 'light' ? "text-black" : "text-white"}`}>{t('haveaccount')}</p>
-            <Link to="/" className={`mx-2 ${theme=== 'light' ? "text-dark-mode" : "text-primary"}`}>
+
+          <div className={`flex items-center justify-center my-3 ${i18n.language === 'ar' ? "flex-row-reverse" : ""}`}>
+            <p >{t('haveaccount')}</p>
+            <Link to="/" className='mx-2 text-primary'>
               {t("login")}
             </Link>
           </div>
-         
+
         </div>
       </div>
     </div>
