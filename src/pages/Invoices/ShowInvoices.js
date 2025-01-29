@@ -215,15 +215,31 @@ export default function ShowInvoices() {
     }
   };
 
+  // const handleFilter = (event) => {
+  //   const newData = invoices.filter((row) => {
+  //     return (
+  //       row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
+  //       row.name.toLowerCase().includes(event.target.value.toLowerCase()) ||
+  //       row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
+  //       row.sales.toLowerCase().includes(event.target.value.toLowerCase()) ||
+  //       row.price.toString().includes(event.target.value)
+  //     );
+  //   });
+  //   setrecords(newData);
+  // };
+
   const handleFilter = (event) => {
+    const filterValue = event.target.value.toLowerCase();
+  
     const newData = invoices.filter((row) => {
       return (
-        row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
-        row.name.toLowerCase().includes(event.target.value.toLowerCase()) ||
-        row.carNo.toLowerCase().includes(event.target.value.toLowerCase()) ||
-        row.price.toString().includes(event.target.value)
+        row.carNo?.toLowerCase().includes(filterValue) ||
+        row.name?.toLowerCase().includes(filterValue) ||
+        row.sales?.toLowerCase().includes(filterValue) ||
+        row.price?.toString().includes(event.target.value)
       );
     });
+  
     setrecords(newData);
   };
 
